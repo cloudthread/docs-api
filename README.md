@@ -1,17 +1,15 @@
 # Welcome!
 
-## Welcome to MyAPI
+## Welcome to Cloudthread Developer API
 
-Welcome to MyAPI! Here you'll find all the documentation you need to get up and running with the MyAPI API.
+Welcome to Cloudthread Developer API! Here you'll find all the documentation you need to get up and running with the cloud cost management API.
 
 ## Want to jump right in?
 
-Feeling like an eager beaver? Jump in to the quick start docs and get making your first request:
+Jump in to the quick start docs and get running in no time:
 
 {% content-ref url="developer-api.md" %}
-[developer-api.md](developer-api.md)
-<!-- {% content-ref url="quick-start.md" %}
-[quick-start.md](quick-start.md) -->
+[quick-start.md](quick-start.md)
 {% endcontent-ref %}
 
 <!-- ## Want to deep dive?
