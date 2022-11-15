@@ -1,0 +1,119 @@
+openapi: 3.0.3
+info:
+  version: 0.0.1
+  title: Cloudthread API
+servers:
+  - url: 'https://api.cloudthread.io/'
+paths:
+  /api/streams/ingest:
+    post:
+      operationId: ingest_stream_data
+      requestBody:
+        $ref: '#/components/requestBodies/StreamData'
+      security:
+        - ApiKeyAuth: []
+      responses:
+        201:
+          description: created
+        400:
+          description: validation error
+        404:
+          description: no stream found
+
+  /api/events:
+    post:
+      operationId: create_events
+      requestBody:
+        $ref: '#/components/requestBodies/CreateEvents'
+      security:
+        - ApiKeyAuth: [ ]
+      responses:
+        201:
+          description: created
+        400:
+          description: validation error
+        404:
+          description: no team found
+
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+
+  requestBodies:
+    StreamData:
+      description: stream data
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StreamData'
+
+    CreateEvents:
+      description: create events
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreateEvents'
+
+  schemas:
+    StreamData:
+      description: stream data
+      properties:
+        data_stream_token:
+          type: string
+          example: sometoken
+        metric_agg_func:
+          type: string
+          example: Sum | Average | Minimum | Maximum
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/StreamDataPayload'
+
+    StreamDataPayload:
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          example: 1234567890
+          description: can be either timestamp or datetime string
+        metric_name:
+          type: string
+        metric_value:
+          type: number
+          format: float
+          example: 3.14
+        custom_dimensions:
+          type: object
+
+    CreateEvents:
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CreateEventsData'
+
+    CreateEventsData:
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          example: 1234567890
+          description: can be either timestamp or datetime string
+        payload:
+          $ref: '#/components/schemas/EventsPayload'
+        team_id:
+          type: integer
+          example: 1
+
+    EventsPayload:
+      properties:
+        type:
+          type: string
+        description:
+          type: string
+        event_url:
+          type: string
