@@ -1,5 +1,7 @@
 # Data Ingestion
 
+Cloudthread can process custom data for generating views and unit metrics.
+
 {% swagger src="https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml" path="/api/streams/ingest" method="post" %}
 [https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml](https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml)
 {% endswagger %}
