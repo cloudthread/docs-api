@@ -4,7 +4,7 @@
 
 Cloudthread provides a webhook to retrieve a tag catalog based on a catalog key.
 
-{% swagger src="https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml" path="/api/tag-catalog" method="get" %}
+{% swagger src="https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml" path="api/tag-catalog" method="get" %}
 [https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml](https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml)
 {% endswagger %}
 
