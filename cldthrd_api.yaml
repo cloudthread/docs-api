@@ -39,7 +39,7 @@ paths:
     get:
       operationId: get_tag_catalog
       parameters:
-       - $ref: '#/components/CatalogKey'
+       - $ref: '#/components/parameters/CatalogKey'
       security:
         - ApiKeyAuth: [ ]
       responses:
