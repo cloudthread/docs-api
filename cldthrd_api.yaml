@@ -3,7 +3,7 @@ info:
   version: 0.0.1
   title: Cloudthread API
 servers:
-  - url: 'https://api.cloudthread.io/'
+  - url: 'https://api.cloudthread.io'
 paths:
   /api/streams/ingest:
     post:
