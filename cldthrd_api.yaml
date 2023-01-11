@@ -3,7 +3,7 @@ info:
   version: 0.0.1
   title: Cloudthread API
 servers:
-  - url: 'https://api.cloudthread.io'
+  - url: 'https://api.cloudthread.io/'
 paths:
   /api/streams/ingest:
     post:
@@ -35,6 +35,16 @@ paths:
         404:
           description: no team found
 
+  /api/tag-catalog:
+    get:
+      operationId: get_tag_catalog
+      parameters:
+       - $ref: '#/components/CatalogKey'
+      security:
+        - ApiKeyAuth: [ ]
+      responses:
+        200:
+          description: success
 
 components:
   securitySchemes:
@@ -42,6 +52,15 @@ components:
       type: apiKey
       in: header
       name: X-API-Key
+
+  parameters:
+    CatalogKey:
+      name: catalog_key
+      in: query
+      description: Tag Catalog key
+      required: true
+      schema:
+        type: string
 
   requestBodies:
     StreamData:
