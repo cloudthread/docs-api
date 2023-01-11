@@ -8,4 +8,4 @@
 * [API Reference](reference/api-reference/README.md)
   * [Data Ingestion](reference/api-reference/pets.md)
   * [Events Overlay Ingestion](reference/api-reference/users.md)
-  * [Tag Catalog](reference/api-reference/tag_catalog.md)
+  * [Tag Catalog Fetch](reference/api-reference/tag_catalog.md)
