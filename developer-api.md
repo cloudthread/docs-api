@@ -40,6 +40,15 @@ Cloudthread can process webhook events that can be overlayed on top of your cost
 
 Data sent via this API will appear in **Costs Overview** and **Unit Metrics Lab** on Cloudthread's platform.
 
+## Tag Catalog Fetch
+
+Cloudthread provides the ability to fetch a tag catalog via catalog key.
+
+{% content-ref url="reference/api-reference/users.md" %}
+[users.md](reference/api-reference/users.md)
+{% endcontent-ref %}
+
+
 ## Data Querying API
 
 {% hint style="info" %}
