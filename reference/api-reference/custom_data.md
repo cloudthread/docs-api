@@ -1,12 +1,12 @@
 # Data Ingestion
 
-Cloudthread can process custom data for generating views and unit metrics.
+Cloudthread can process custom data for generating Cost Views and Unit Metrics.
 
-{% swagger src="https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml" path="/api/streams/ingest" method="post" %}
+{% swagger src="https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml" path="/streams/ingest" method="post" %}
 [https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml](https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml)
 {% endswagger %}
 
-To send custom data to Cloudthread, use the **Data Ingestion** endpoint above with the provisioned Data Stream Token and the following payload
+To send custom data to Cloudthread, use the endpoint above with the provisioned Data Stream Token and the following payload
 
 ```json
 {

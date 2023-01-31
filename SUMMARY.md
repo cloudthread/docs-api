@@ -1,11 +1,11 @@
 # Table of contents
 
 * [Welcome!](README.md)
-* [Quick Start](developer-api.md)
 
 ## Reference
 
 * [API Reference](reference/api-reference/README.md)
-  * [Data Ingestion](reference/api-reference/pets.md)
-  * [Events Overlay Ingestion](reference/api-reference/users.md)
+  * [Data Ingestion](reference/api-reference/custom_data.md)
+  * [Events Overlay Ingestion](reference/api-reference/events.md)
   * [Tag Catalog Fetch](reference/api-reference/tag_catalog.md)
+  * [Metric Fetch](reference/api-reference/metrics.md)

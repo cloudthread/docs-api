@@ -2,13 +2,13 @@
 
 ## Event Overlay Ingestion
 
-Cloudthread can process webhook events that can be overlayed on top of your cost data and unit metrics.
+Cloudthread can process webhook events that can be overlayed on top of your Cost Views and Unit Metrics.
 
-To send events data to Cloudthread, use the following endpoint and the following payload
-
-{% swagger src="https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml" path="/api/events" method="post" %}
+{% swagger src="https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml" path="/events" method="post" %}
 [https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml](https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml)
 {% endswagger %}
+
+To send events data to Cloudthread, use the endpoint above and the following payload
 
 ```json
 {
