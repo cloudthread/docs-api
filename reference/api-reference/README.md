@@ -20,7 +20,7 @@ Any request without a valid token will be rejected.
 
 ## Custom Data Ingestion
 
-Cloudthread provides the ability to send custom data to our systems that can then be used on the platform.
+Cloudthread provides the ability to send custom data to our systems that can then be used in your Cost Views and Unit Metrics.
 
 In order to send custom data, you must provision a **Custom Data - Data Stream Token** on the Cloudthread platform within the **Settings** tab.
 
@@ -32,7 +32,7 @@ Data sent via this API will appear in **Costs Overview** and **Unit Metrics Lab*
 
 ## Event Overlay Ingestion
 
-Cloudthread can process webhook Events that can be overlayed on top of your Cost Views and Unit Metrics.
+Cloudthread provides the ability to send webhook Events that can be overlayed on top of your Cost Views and Unit Metrics.
 
 {% content-ref url="reference/api-reference/events.md" %}
 [events.md](reference/api-reference/events.md)
