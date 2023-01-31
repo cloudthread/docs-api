@@ -20,39 +20,39 @@ Any request without a valid token will be rejected.
 
 ## Custom Data Ingestion
 
-Cloudthread provides the ability to send data to our systems that can then be used on the platform.
+Cloudthread provides the ability to send custom data to our systems that can then be used on the platform.
 
 In order to send custom data, you must provision a **Custom Data - Data Stream Token** on the Cloudthread platform within the **Settings** tab.
 
-{% content-ref url="reference/api-reference/pets.md" %}
-[pets.md](reference/api-reference/pets.md)
+{% content-ref url="reference/api-reference/custom_data.md" %}
+[custom_data.md](reference/api-reference/custom_data.md)
 {% endcontent-ref %}
 
-Data sent via this API will appear in the **Unit Metrics Lab** on Cloudthread's platform.
+Data sent via this API will appear in **Costs Overview** and **Unit Metrics Lab** on Cloudthread's platform.
 
 ## Event Overlay Ingestion
 
-Cloudthread can process webhook events that can be overlayed on top of your cost data and unit metrics.
+Cloudthread can process webhook Events that can be overlayed on top of your Cost Views and Unit Metrics.
 
-{% content-ref url="reference/api-reference/users.md" %}
-[users.md](reference/api-reference/users.md)
+{% content-ref url="reference/api-reference/events.md" %}
+[events.md](reference/api-reference/events.md)
 {% endcontent-ref %}
 
 Data sent via this API will appear in **Costs Overview** and **Unit Metrics Lab** on Cloudthread's platform.
 
 ## Tag Catalog Fetch
 
-Cloudthread provides the ability to fetch a tag catalog via catalog key.
+Cloudthread provides the ability to fetch a Tag Catalog entry via catalog key.
 
-{% content-ref url="reference/api-reference/users.md" %}
-[users.md](reference/api-reference/users.md)
+{% content-ref url="reference/api-reference/tag_catalog.md" %}
+[tag_catalog.md](reference/api-reference/tag_catalog.md)
 {% endcontent-ref %}
 
 
-## Data Querying API
+## Cost View and Unit Metric Data Fetch
 
-{% hint style="info" %}
-**COMING SOON**
+Cloudthread provides the ability to fetch a Cost View and Unit Metric data.
 
-Please contact [support@cloudthread.io](mailto:support@cloudthread.io) for more information about this feature**.**
-{% endhint %}
+{% content-ref url="reference/api-reference/metrics.md" %}
+[metrics.md](reference/api-reference/metrics.md)
+{% endcontent-ref %}
