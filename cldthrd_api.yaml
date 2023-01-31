@@ -97,7 +97,7 @@ components:
     StartDate:
       name: start_date
       in: query
-      description: Tag Catalog key
+      description: Start Date
       required: true
       schema:
         type: string
@@ -105,7 +105,7 @@ components:
     EndDate:
       name: end_date
       in: query
-      description: Tag Catalog key
+      description: End Date
       required: true
       schema:
         type: string
@@ -116,7 +116,7 @@ components:
       description: Cost Type or Cost Column ID
       required: false
       schema:
-        type: string | integer
+        type: string or integer
 
     Amortization:
       name: amortization
@@ -129,10 +129,10 @@ components:
     Exclude:
       name: exclude
       in: query
-      description: Excluded Payment Type
+      description: Excluded Payment Types
       required: false
       schema:
-        type: string
+        type: comma-seperated string
 
     Granularity:
       name: granularity
