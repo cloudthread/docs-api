@@ -65,7 +65,7 @@ paths:
 
   /unit/metric/{metric_id}:
     get:
-      operationId: get_cost_metric_filter_data
+      operationId: get_unit_metric_filter_data
       parameters:
        - $ref: '#/components/parameters/MetricID'
        - $ref: '#/components/parameters/StartDate'
