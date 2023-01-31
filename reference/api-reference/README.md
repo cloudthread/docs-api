@@ -1,23 +1,58 @@
-# API Reference
+# Quick Start
 
-Dive into the specifics of each API endpoint by checking out our complete documentation.
+Cloudthread provides a powerful and flexible REST Developer API to help you get the most out of your data.
+
+This page shows how to use the API, and what features are currently available.
+
+## Basic setup
+
+Cloudthread's Developer API lives at
+
+`https://api.cloudthread.io`
+
+Cloudthread requires an API Token to process incoming developer API requests. Admin's have the ability to generate API Tokens on the Cloudthread platform within the **Settings** tab.
+
+This API Token should be included in the headers for all Developer API requests as follows:
+
+`x-api-key: {API_TOKEN}`
+
+Any request without a valid token will be rejected.
 
 ## Custom Data Ingestion
 
-All the methods associated with custom data ingestion
+Cloudthread provides the ability to send custom data to our systems that can then be used on the platform.
 
-{% content-ref url="custom_data.md" %}
-[custom_data.md](custom_data.md)
+In order to send custom data, you must provision a **Custom Data - Data Stream Token** on the Cloudthread platform within the **Settings** tab.
+
+{% content-ref url="reference/api-reference/custom_data.md" %}
+[custom_data.md](reference/api-reference/custom_data.md)
 {% endcontent-ref %}
 
-## Users
+Data sent via this API will appear in **Costs Overview** and **Unit Metrics Lab** on Cloudthread's platform.
 
-Everything related to users:
+## Event Overlay Ingestion
 
-{% content-ref url="users.md" %}
-[users.md](users.md)
+Cloudthread can process webhook Events that can be overlayed on top of your Cost Views and Unit Metrics.
+
+{% content-ref url="reference/api-reference/events.md" %}
+[events.md](reference/api-reference/events.md)
 {% endcontent-ref %}
 
-{% hint style="info" %}
-**Good to know:** Using the 'Page Link' block lets you link directly to a page. If this page's name, URL or parent location changes, the reference will be kept up to date. You can also mention a page – like [custom_data.md](custom_data.md "mention") – if you don't want a block-level link.
-{% endhint %}
+Data sent via this API will appear in **Costs Overview** and **Unit Metrics Lab** on Cloudthread's platform.
+
+## Tag Catalog Fetch
+
+Cloudthread provides the ability to fetch a Tag Catalog entry via catalog key.
+
+{% content-ref url="reference/api-reference/tag_catalog.md" %}
+[tag_catalog.md](reference/api-reference/tag_catalog.md)
+{% endcontent-ref %}
+
+
+## Cost View and Unit Metric Data Fetch
+
+Cloudthread provides the ability to fetch a Cost View and Unit Metric data.
+
+{% content-ref url="reference/api-reference/metrics.md" %}
+[metrics.md](reference/api-reference/metrics.md)
+{% endcontent-ref %}
