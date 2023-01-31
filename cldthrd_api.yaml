@@ -46,7 +46,7 @@ paths:
         200:
           description: success
   
-  /cost/metric/{metric_id}
+  /cost/metric/{metric_id}:
     get:
       operationId: get_cost_metric_filter_data
       parameters:
@@ -57,12 +57,16 @@ paths:
         200:
           description: success
 
-  /unit/metric/{metric_id}
+  /unit/metric/{metric_id}:
     get:
       operationId: get_cost_metric_filter_data
       parameters:
        - $ref: '#/components/parameters/StartDate'
        - $ref: '#/components/parameters/EndDate'
+       - $ref: '#/components/parameters/CostType'
+       - $ref: '#/components/parameters/Amortization'
+       - $ref: '#/components/parameters/Exclude'
+       - $ref: '#/components/parameters/Granularity'
       security:
         - ApiKeyAuth: [ ]
       responses:
@@ -98,6 +102,38 @@ components:
       in: query
       description: Tag Catalog key
       required: true
+      schema:
+        type: string
+
+    CostType:
+      name: cost_type
+      in: query
+      description: Cost Type or Cost Column ID
+      required: false
+      schema:
+        type: string | integer
+
+    Amortization:
+      name: amortization
+      in: query
+      description: Cost Data Amortization
+      required: false
+      schema:
+        type: boolean
+
+    Exclude:
+      name: exclude
+      in: query
+      description: Excluded Payment Type
+      required: false
+      schema:
+        type: string
+
+    Granularity:
+      name: granularity
+      in: query
+      description: Metric Date Granularity
+      required: falase
       schema:
         type: string
 
