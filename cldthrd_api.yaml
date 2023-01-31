@@ -138,7 +138,7 @@ components:
       name: granularity
       in: query
       description: Metric Date Granularity
-      required: falase
+      required: false
       schema:
         type: string
 
