@@ -50,7 +50,12 @@ paths:
     get:
       operationId: get_cost_metric_filter_data
       parameters:
-       - $ref: '#/components/parameters/CatalogKey'
+       - $ref: '#/components/parameters/StartDate'
+       - $ref: '#/components/parameters/EndDate'
+       - $ref: '#/components/parameters/CostType'
+       - $ref: '#/components/parameters/Amortization'
+       - $ref: '#/components/parameters/Exclude'
+       - $ref: '#/components/parameters/Granularity'
       security:
         - ApiKeyAuth: [ ]
       responses:
