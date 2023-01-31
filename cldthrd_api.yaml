@@ -50,6 +50,7 @@ paths:
     get:
       operationId: get_cost_metric_filter_data
       parameters:
+       - $ref: '#/components/parameters/MetricID'
        - $ref: '#/components/parameters/StartDate'
        - $ref: '#/components/parameters/EndDate'
        - $ref: '#/components/parameters/CostType'
@@ -66,6 +67,7 @@ paths:
     get:
       operationId: get_cost_metric_filter_data
       parameters:
+       - $ref: '#/components/parameters/MetricID'
        - $ref: '#/components/parameters/StartDate'
        - $ref: '#/components/parameters/EndDate'
        - $ref: '#/components/parameters/CostType'
@@ -93,6 +95,14 @@ components:
       required: true
       schema:
         type: string
+
+    MetricID:
+      name: metric_id
+      in: path
+      description: Cost View or Unit Metric ID
+      required: true
+      schema:
+        type: in
 
     StartDate:
       name: start_date
