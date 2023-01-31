@@ -5,7 +5,7 @@ info:
 servers:
   - url: 'https://api.cloudthread.io'
 paths:
-  /api/streams/ingest:
+  /streams/ingest:
     post:
       operationId: ingest_stream_data
       requestBody:
@@ -20,7 +20,7 @@ paths:
         404:
           description: no stream found
 
-  /api/events:
+  /events:
     post:
       operationId: create_events
       requestBody:
@@ -35,11 +35,34 @@ paths:
         404:
           description: no team found
 
-  /api/tag-catalog:
+  /tag-catalog:
     get:
       operationId: get_tag_catalog
       parameters:
        - $ref: '#/components/parameters/CatalogKey'
+      security:
+        - ApiKeyAuth: [ ]
+      responses:
+        200:
+          description: success
+  
+  /cost/metric/{metric_id}
+    get:
+      operationId: get_cost_metric_filter_data
+      parameters:
+       - $ref: '#/components/parameters/CatalogKey'
+      security:
+        - ApiKeyAuth: [ ]
+      responses:
+        200:
+          description: success
+
+  /unit/metric/{metric_id}
+    get:
+      operationId: get_cost_metric_filter_data
+      parameters:
+       - $ref: '#/components/parameters/StartDate'
+       - $ref: '#/components/parameters/EndDate'
       security:
         - ApiKeyAuth: [ ]
       responses:
@@ -56,6 +79,22 @@ components:
   parameters:
     CatalogKey:
       name: catalog_key
+      in: query
+      description: Tag Catalog key
+      required: true
+      schema:
+        type: string
+
+    StartDate:
+      name: start_date
+      in: query
+      description: Tag Catalog key
+      required: true
+      schema:
+        type: string
+
+    EndDate:
+      name: end_date
       in: query
       description: Tag Catalog key
       required: true
