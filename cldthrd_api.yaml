@@ -64,7 +64,8 @@ paths:
           description: success
           content:
             application/json:
-              $ref: '#/components/schemas/GetCostViewPayload'
+              schema:
+                $ref: '#/components/schemas/GetCostViewPayload'
 
   /unit/metric/{metric_id}:
     get:
@@ -84,7 +85,8 @@ paths:
           description: success
           content:
             application/json:
-              $ref: '#/components/schemas/GetUnitMetricPayload'
+              schema:
+                $ref: '#/components/schemas/GetUnitMetricPayload'
 
 components:
   securitySchemes:
