@@ -269,6 +269,8 @@ components:
           format: float
         date:
           type: string
+        agg_func:
+          type: string
 
     GetUnitMetricPayload:
       properties:
