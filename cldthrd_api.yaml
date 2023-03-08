@@ -267,8 +267,6 @@ components:
         pop_change:
           type: number
           format: float
-        agg_func:
-          type: string
         date:
           type: string
 
