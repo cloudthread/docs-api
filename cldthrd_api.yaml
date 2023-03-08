@@ -62,6 +62,9 @@ paths:
       responses:
         200:
           description: success
+          content:
+            application/json:
+              $ref: '#/components/schemas/GetCostViewPayload'
 
   /unit/metric/{metric_id}:
     get:
@@ -79,6 +82,9 @@ paths:
       responses:
         200:
           description: success
+          content:
+            application/json:
+              $ref: '#/components/schemas/GetUnitMetricPayload'
 
 components:
   securitySchemes:
@@ -225,4 +231,56 @@ components:
         description:
           type: string
         event_url:
+          type: string
+
+    GetCostViewPayload:
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetCostViewDataPoint'
+
+    GetCostViewDataPoint:
+      properties:
+        current_timeframe_cost:
+          type: float
+        previous_timeframe_cost:
+          type: float
+        pop_diff:
+          type: float
+        pop_chnage:
+          type: float
+        date:
+          type: string
+
+    GetUnitMetricPayload:
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetCostMetricDataPoint'
+
+    GetUnitMetricDataPoint:
+      properties:
+        current_timeframe_denominator:
+          type: float
+        current_timeframe_numerator:
+          type: float
+        current_timeframe_unit_metric:
+          type: float
+        previous_timeframe_denominator:
+          type: float
+        previous_timeframe_numerator:
+          type: float
+        previous_timeframe_unit_metric:
+          type: float
+        pop_diff:
+          type: float
+        pop_chnage:
+          type: float
+        date:
+          type: string
+        d_agg_func:
+          type: string
+        n_agg_func:
           type: string
