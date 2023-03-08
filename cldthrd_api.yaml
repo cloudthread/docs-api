@@ -44,7 +44,11 @@ paths:
         - ApiKeyAuth: [ ]
       responses:
         200:
-          description: success
+          description: metric data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTagsPayload'
   
   /cost/metric/{metric_id}:
     get:
@@ -234,6 +238,13 @@ components:
           type: string
         event_url:
           type: string
+
+    GetTagsPayload:
+      properties:
+        tags:
+          type: object
+          additionalProperties:
+            type: string
 
     GetCostViewPayload:
       properties:
