@@ -61,7 +61,7 @@ paths:
         - ApiKeyAuth: [ ]
       responses:
         200:
-          description: success
+          description: metric data
           content:
             application/json:
               schema:
@@ -82,7 +82,7 @@ paths:
         - ApiKeyAuth: [ ]
       responses:
         200:
-          description: success
+          description: metric data
           content:
             application/json:
               schema:
@@ -245,13 +245,17 @@ components:
     GetCostViewDataPoint:
       properties:
         current_timeframe_cost:
-          type: float
+          type: number
+          format: float
         previous_timeframe_cost:
-          type: float
+          type: number
+          format: float
         pop_diff:
-          type: float
+          type: number
+          format: float
         pop_chnage:
-          type: float
+          type: number
+          format: float
         date:
           type: string
 
@@ -265,21 +269,29 @@ components:
     GetUnitMetricDataPoint:
       properties:
         current_timeframe_denominator:
-          type: float
+          type: number
+          format: float
         current_timeframe_numerator:
-          type: float
+          type: number
+          format: float
         current_timeframe_unit_metric:
-          type: float
+          type: number
+          format: float
         previous_timeframe_denominator:
-          type: float
+          type: number
+          format: float
         previous_timeframe_numerator:
-          type: float
+          type: number
+          format: float
         previous_timeframe_unit_metric:
-          type: float
+          type: number
+          format: float
         pop_diff:
-          type: float
+          type: number
+          format: float
         pop_chnage:
-          type: float
+          type: number
+          format: float
         date:
           type: string
         d_agg_func:
