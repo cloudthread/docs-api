@@ -264,7 +264,7 @@ components:
         pop_diff:
           type: number
           format: float
-        pop_chnage:
+        pop_change:
           type: number
           format: float
         date:
@@ -302,7 +302,7 @@ components:
         pop_diff:
           type: number
           format: float
-        pop_chnage:
+        pop_change:
           type: number
           format: float
         date:
