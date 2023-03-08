@@ -44,7 +44,7 @@ paths:
         - ApiKeyAuth: [ ]
       responses:
         200:
-          description: metric data
+          description: tag data
           content:
             application/json:
               schema:
@@ -268,8 +268,6 @@ components:
           type: number
           format: float
         date:
-          type: string
-        agg_func:
           type: string
 
     GetUnitMetricPayload:
