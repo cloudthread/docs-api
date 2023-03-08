@@ -258,7 +258,7 @@ components:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/GetCostMetricDataPoint'
+            $ref: '#/components/schemas/GetUnitMetricDataPoint'
 
     GetUnitMetricDataPoint:
       properties:
