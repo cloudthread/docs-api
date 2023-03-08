@@ -267,9 +267,9 @@ components:
         pop_change:
           type: number
           format: float
-        date:
-          type: string
         agg_func:
+          type: string
+        date:
           type: string
 
     GetUnitMetricPayload:
@@ -305,9 +305,9 @@ components:
         pop_change:
           type: number
           format: float
-        date:
-          type: string
         d_agg_func:
           type: string
         n_agg_func:
+          type: string
+        date:
           type: string
