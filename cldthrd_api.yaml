@@ -92,6 +92,132 @@ paths:
               schema:
                 $ref: '#/components/schemas/GetUnitMetricPayload'
 
+  /users:
+    get:
+      operationId: get_users
+      security:
+        - ApiKeyAuth: [ ]
+      responses:
+        200:
+          description: list of users
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUsersResponse'
+  /teams:
+    get:
+      operationId: get_teams_within_org
+      security:
+        - ApiKeyAuth: [ ]
+      responses:
+        200:
+          description: get teams
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTeamsResponse'
+
+    post:
+      operationId: create_team
+      requestBody:
+        $ref: '#/components/requestBodies/CreateTeam'
+      security:
+        - ApiKeyAuth: [ ]
+      responses:
+        200:
+          description: create team
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamResponse'
+        400:
+          description: validation error
+        404:
+          description: slack integration or slack channel not found
+
+  /teams/{team_id}:
+    get:
+      operationId: get_team_within_org
+      security:
+        - ApiKeyAuth: [ ]
+      responses:
+        200:
+          description: get team
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamResponse'
+    patch:
+      operationId: update_team
+      requestBody:
+        $ref: '#/components/requestBodies/CreateTeam'
+      security:
+        - ApiKeyAuth: [ ]
+      responses:
+        200:
+          description: updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamResponse'
+        400:
+          description: validation error
+        404:
+          description: slack integration/slack channel not found/team not found
+
+    delete:
+      operationId: delete_team
+      security:
+        - ApiKeyAuth: [ ]
+      responses:
+        204:
+          description: deleted
+        404:
+          description: team not found
+
+  /teams/{team_id}/members:
+    get:
+      operationId: get_team_members
+      security:
+        - ApiKeyAuth: [ ]
+      responses:
+        200:
+          description: list of team members
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUsersResponse'
+
+  /teams/{team_id}/members/assign:
+    post:
+      operationId: assign_users_to_team
+      requestBody:
+        $ref: '#/components/requestBodies/AssignUsersToTeam'
+      security:
+        - ApiKeyAuth: [ ]
+      responses:
+        200:
+          description: list of team members
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUsersResponse'
+
+  /teams/{team_id}/members/delete:
+    post:
+      operationId: assign_users_to_team
+      requestBody:
+        $ref: '#/components/requestBodies/RemoveUsersFromTeam'
+      security:
+        - ApiKeyAuth: [ ]
+      responses:
+        200:
+          description: list of team members
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUsersResponse'
+
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -114,7 +240,15 @@ components:
       description: Cost View or Unit Metric ID
       required: true
       schema:
-        type: in
+        type: string
+
+    TeamID:
+      name: team_id
+      in: path
+      description: team id
+      required: true
+      schema:
+        type: string
 
     StartDate:
       name: start_date
@@ -178,6 +312,36 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/CreateEvents'
+
+    CreateTeam:
+      description: create team
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreateTeamRequest'
+
+    AssignUsersToTeam:
+      description: assign users to team
+      content:
+        application/json:
+          schema:
+            properties:
+              users_ids:
+                type: array
+                items:
+                  type: string
+
+    RemoveUsersFromTeam:
+      description: remove users from team
+      content:
+        application/json:
+          schema:
+            properties:
+              users_ids:
+                type: array
+                items:
+                  type: string
+
 
   schemas:
     StreamData:
@@ -269,8 +433,6 @@ components:
           format: float
         date:
           type: string
-        agg_func:
-          type: string
 
     GetUnitMetricPayload:
       properties:
@@ -305,9 +467,175 @@ components:
         pop_change:
           type: number
           format: float
-        date:
-          type: string
         d_agg_func:
           type: string
         n_agg_func:
           type: string
+        date:
+          type: string
+
+    User:
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        name:
+          type: string
+
+    GetUsersResponse:
+        type: array
+        items:
+          $ref: '#/components/schemas/User'
+
+
+    CreateTeamRequest:
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        slack_channel:
+          type: string
+        aws_account_ids:
+          type: array
+          items:
+            type: string
+        aws_bill_payer_account_ids:
+          type: array
+          items:
+            type: string
+        aws_region_names:
+          type: array
+          items:
+            type: string
+        aws_services:
+          type: array
+          items:
+            type: string
+        aws_tags:
+          type: array
+          items:
+            type: object
+        aws_account_tags:
+          type: array
+          items:
+            type: object
+        gcp_project_names:
+          type: array
+          items:
+            type: string
+        gcp_billing_account_ids:
+          type: array
+          items:
+            type: string
+        gcp_sku_ids:
+          type: array
+          items:
+            type: string
+        gcp_locations:
+          type: array
+          items:
+            type: string
+        gcp_services:
+          type: array
+          items:
+            type: string
+        gcp_labels:
+          type: array
+          items:
+            type: object
+        custom_stream_tokens:
+          type: array
+          items:
+            type: string
+        custom_metric_names:
+          type: array
+          items:
+            type: string
+        custom_dimensions:
+          type: array
+          items:
+            type: object
+        opportunity_priorities:
+          type: array
+          items:
+            type: integer
+
+    TeamResponse:
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        slack_channel:
+          type: string
+        aws_account_ids:
+          type: array
+          items:
+            type: string
+        aws_bill_payer_account_ids:
+          type: array
+          items:
+            type: string
+        aws_region_names:
+          type: array
+          items:
+            type: string
+        aws_services:
+          type: array
+          items:
+            type: string
+        aws_tags:
+          type: array
+          items:
+            type: object
+        aws_account_tags:
+          type: array
+          items:
+            type: object
+        gcp_project_names:
+          type: array
+          items:
+            type: string
+        gcp_billing_account_ids:
+          type: array
+          items:
+            type: string
+        gcp_sku_ids:
+          type: array
+          items:
+            type: string
+        gcp_locations:
+          type: array
+          items:
+            type: string
+        gcp_services:
+          type: array
+          items:
+            type: string
+        gcp_labels:
+          type: array
+          items:
+            type: object
+        custom_stream_tokens:
+          type: array
+          items:
+            type: string
+        custom_metric_names:
+          type: array
+          items:
+            type: string
+        custom_dimensions:
+          type: array
+          items:
+            type: object
+        opportunity_priorities:
+          type: array
+          items:
+            type: integer
+
+    GetTeamsResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/TeamResponse'
