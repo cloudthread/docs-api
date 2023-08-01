@@ -9,3 +9,5 @@
   * [Events Overlay Ingestion](reference/api-reference/events.md)
   * [Tag Catalog Fetch](reference/api-reference/tag_catalog.md)
   * [Metric Fetch](reference/api-reference/metrics.md)
+  * [Teams(reference/api-reference/teams.md)
+  * [Users(reference/api-reference/users.md)
