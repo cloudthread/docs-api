@@ -32,6 +32,24 @@ You can create, edit, and delete Teams via Cloudthread's API.
 [https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml](https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml)
 {% endswagger %}
 
+## Teams Assign Members
+
+{% swagger src="https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml" path="teams/{team_id}/members/assign" method="get" %}
+[https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml](https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml)
+{% endswagger %}
+
+## Teams Remove Members
+
+{% swagger src="https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml" path="teams/{team_id}/members/delete" method="get" %}
+[https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml](https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml)
+{% endswagger %}
+
+## Teams GET Members
+
+{% swagger src="https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml" path="/teams/{team_id}/members" method="get" %}
+[https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml](https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml)
+{% endswagger %}
+
 
 {% hint style="info" %}
 **Good to know:** All the methods shown below are synced to an example Swagger file URL and are kept up to date automatically with changes to the API.
