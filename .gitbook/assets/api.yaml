@@ -1,0 +1,1282 @@
+openapi: 3.0.3
+info:
+  version: 0.0.1
+  title: Cloudthread backend
+servers:
+  - url: 'https://api.core.{environment}.cloudthread.io/'
+    description: cloudthread.io
+    variables:
+      environment:
+        enum:
+          - development
+          - production
+        default: development
+  - url: 'http://localhost:{port}'
+    description: Local API Server
+    variables:
+      port:
+        default: '3000'
+paths:
+  /ping:
+    get:
+      operationId: ping
+      summary: Just ping
+      tags:
+        - Monitoring
+      responses:
+        200:
+          description: OK
+
+  /user:
+    get:
+      operationId: getUser
+      summary: Get user profile
+      description: This method returns authorized user profile
+      tags:
+        - Users
+      security:
+        - tokenAuth: [ ]
+      responses:
+        200:
+          $ref: '#/components/responses/User'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        500:
+          description: internal server error
+    patch:
+      operationId: updateUser
+      summary: Change user profile
+      description: Change user profile details
+      tags:
+        - Users
+      security:
+        - tokenAuth: [ ]
+      requestBody:
+        $ref: '#/components/requestBodies/User'
+      responses:
+        200:
+          $ref: '#/components/responses/User'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        500:
+          description: internal server error
+  
+  /organizations:
+    post:
+      operationId: createOrganization
+      summary: Create organization
+      description: Create organization
+      tags:
+        - Organizations
+      security:
+        - tokenAuth: [ ]
+      responses:
+        200:
+          $ref: '#/components/responses/Organizations'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        500:
+          description: internal server error
+
+  /signin:
+    post:
+      operationId: signin
+      summary: Application sign in
+      description: Application sign in with email and password
+      tags:
+        - Auth
+      requestBody:
+        $ref: '#/components/requestBodies/SignIn'
+      responses:
+        204:
+          $ref: '#/components/responses/AuthSuccessful'
+        500:
+          description: internal server error
+
+  /signout:
+    get:
+      operationId: signout
+      summary: User sign out
+      tags:
+        - Auth
+      security:
+        - tokenAuth: [ ]
+      responses:
+        204:
+          description: Logout user
+          headers:
+            Set-Cookie:
+              description: Delete token
+              schema:
+                type: string
+                example: token=; Path=/; Domain=app.cloudthread.io; Expires=;
+        500:
+          description: internal server error
+
+  /signup:
+    post:
+      operationId: signup
+      summary: Register
+      description: Register with user details
+      tags:
+        - Auth
+      requestBody:
+        $ref: '#/components/requestBodies/SignUp'
+      responses:
+        204:
+          $ref: '#/components/responses/AuthSuccessful'
+        500:
+          description: internal server error
+
+  /signin/google:
+    get:
+      operationId: signinGoogle
+      summary: Google social login
+      description: Redirect to Google social_login dialog
+      tags:
+        - Auth
+      responses:
+        302:
+          $ref: '#/components/responses/AuthDialog'
+        500:
+          description: internal server error
+
+  /signin/google/callback:
+    get:
+      operationId: signinGoogleCallback
+      summary: Processing callback
+      description: Processing callback
+      tags:
+        - Auth
+      parameters:
+        - $ref: '#/components/parameters/SocialServiceAuthCode'
+      responses:
+        200:
+          $ref: '#/components/responses/AuthSuccessful'
+        500:
+          description: internal server error
+
+  /signin/github:
+    get:
+      operationId: signinGithub
+      summary: Github social_login
+      description: Redirect to Github social_login dialog
+      tags:
+        - Auth
+      responses:
+        302:
+          $ref: '#/components/responses/AuthDialog'
+        500:
+          description: internal server error
+
+  /signin/github/callback:
+    get:
+      operationId: signinGithubCallback
+      summary: Processing callback
+      description: Processing callback
+      tags:
+        - Auth
+      parameters:
+        - $ref: '#/components/parameters/SocialServiceAuthCode'
+      responses:
+        200:
+          $ref: '#/components/responses/AuthSuccessful'
+        500:
+          description: internal server error
+
+  /email/verify:
+    get:
+      operationId: emailVerify
+      summary: Verify email
+      description: Processing callback
+      tags:
+        - Auth
+      parameters:
+        - $ref: '#/components/parameters/VerificationToken'
+      responses:
+        204:
+          $ref: '#/components/responses/VerificationSuccessful'
+        500:
+          description: internal server error
+
+  /configs/datacollector:
+    get:
+      operationId: dataCollectionConfigs
+      summary: Get user organization data collection configs
+      description: This method returns all data collection configs for the organization the user owns based on query params
+      tags:
+        - Data Collection
+      parameters:
+        - $ref: '#/components/parameters/DataSourceId'
+        - $ref: '#/components/parameters/DataCollectionCadence'
+      security:
+        - tokenAuth: [ ]
+      responses:
+        200:
+          $ref: '#/components/responses/DataCollections'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        500:
+          description: internal server error
+    post:
+      operationId: dataCollectionConfigsCreate
+      summary: Create data collection config for user organization
+      description: This method creates a data collection config for the organization the user owns
+      tags:
+        - Data Collection
+      requestBody:
+        $ref: '#/components/requestBodies/DataCollection'
+      security:
+        - tokenAuth: [ ]
+      responses:
+        200:
+          $ref: '#/components/responses/DataCollection'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        500:
+          description: internal server error
+
+  /configs/datacollector/{config_id:\d+}:
+    get:
+      operationId: dataCollectionConfig
+      summary: Get user organization data collection config
+      description: This method returns a single config for the organization the user owns based on config_id
+      tags:
+        - Data Collection
+      security:
+        - tokenAuth: [ ]
+      responses:
+        200:
+          $ref: '#/components/responses/DataCollection'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        500:
+          description: internal server error
+    patch:
+      operationId: dataCollectionConfigsUpdate
+      summary: Update data collection config for user organization
+      description: This method updates a data collection config for the organization the user owns based on config_id
+      tags:
+        - Data Collection
+      requestBody:
+        $ref: '#/components/requestBodies/DataCollection'
+      security:
+        - tokenAuth: [ ]
+      responses:
+        200:
+          $ref: '#/components/responses/DataCollection'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        500:
+          description: internal server error
+
+
+  /internal/dataconfigs:
+    get:
+      operationId: adminDataCollectionConfigs
+      summary: Get data collection configs
+      description: This method returns all data collection configs based on query params
+      tags:
+        - Data Collection
+      parameters:
+        - $ref: '#/components/parameters/OrganizationId'
+        - $ref: '#/components/parameters/DataSourceId'
+        - $ref: '#/components/parameters/DataCollectionCadence'
+      security:
+        - adminAuth: [ ]
+      responses:
+        200:
+          $ref: '#/components/responses/DataCollections'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        500:
+          description: internal server error
+    post:
+      operationId: adminDataCollectionConfigsCreate
+      summary: Create data collection config
+      description: This method creates a data collection config
+      tags:
+        - Data Collection
+      requestBody:
+        $ref: '#/components/requestBodies/AdminDataCollection'
+      security:
+        - adminAuth: [ ]
+      responses:
+        200:
+          $ref: '#/components/responses/DataCollection'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        500:
+          description: internal server error
+
+  /internal/dataconfigs/{config_id:\d+}:
+    get:
+      operationId: adminDataCollectionConfig
+      summary: Get data collection config
+      description: This method returns a single config based on config_id
+      tags:
+        - Data Collection
+      security:
+        - adminAuth: [ ]
+      responses:
+        200:
+          $ref: '#/components/responses/DataCollection'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        500:
+          description: internal server error
+    patch:
+      operationId: adminDataCollectionConfigUpdate
+      summary: Update data collection config
+      description: This method updates a data collection config based on config_id
+      tags:
+        - Data Collection
+      requestBody:
+        $ref: '#/components/requestBodies/DataCollection'
+      security:
+        - tokenAuth: [ ]
+      responses:
+        200:
+          $ref: '#/components/responses/DataCollection'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        500:
+          description: internal server error
+
+  /configs/report:
+    get:
+      operationId: reportConfigs
+      summary: Get user organization report configs
+      description: This method returns all report configs for the organization the user owns based on query params
+      tags:
+        - Reports
+      parameters:
+        - $ref: '#/components/parameters/OwnerId'
+        - $ref: '#/components/parameters/ReportTypeId'
+        - $ref: '#/components/parameters/ReportCadence'
+        - $ref: '#/components/parameters/ReportName'
+      security:
+        - tokenAuth: [ ]
+      responses:
+        200:
+          $ref: '#/components/responses/Reports'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        500:
+          description: internal server error
+    post:
+      operationId: reportConfigsCreate
+      summary: Create report config for user organization
+      description: This method creates a report config for the organization the user owns
+      tags:
+        - Reports
+      requestBody:
+        $ref: '#/components/requestBodies/Report'
+      security:
+        - tokenAuth: [ ]
+      responses:
+        200:
+          $ref: '#/components/responses/Report'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        500:
+          description: internal server error
+   
+   /configs/report/{config_id:\d+}: 
+    get:
+      operationId: reportConfig
+      summary: Get user organization report config
+      description: This method returns a single config for the organization the user owns based on config_id
+      tags:
+        - Reports
+      security:
+        - tokenAuth: [ ]
+      responses:
+        200:
+          $ref: '#/components/responses/ReportWithOwner'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        500:
+          description: internal server error
+
+    patch:
+      operationId: reportConfigUpdate
+      summary: Update report config for user organization
+      description: This method updates a report config for the organization the user owns based on config_id
+      tags:
+        - Reports
+      requestBody:
+        $ref: '#/components/requestBodies/Report'
+      security:
+        - tokenAuth: [ ]
+      responses:
+        200:
+          $ref: '#/components/responses/Report'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        500:
+          description: internal server error
+  
+  /internal/reportconfigs:
+    get:
+      operationId: adminReportConfigs
+      summary: Get report configs
+      description: This method returns all report configs based on query params
+      tags:
+        - Reports
+      parameters:
+        - $ref: '#/components/parameters/OwnerId'
+        - $ref: '#/components/parameters/OrganizationId'
+        - $ref: '#/components/parameters/ReportTypeId'
+        - $ref: '#/components/parameters/ReportCadence'
+        - $ref: '#/components/parameters/ReportName'
+      security:
+        - adminAuth: [ ]
+      responses:
+        200:
+          $ref: '#/components/responses/Reports'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        500:
+          description: internal server error
+
+  /internal/reportconfigs/{config_id:\d+}:
+    get:
+      operationId: adminReportConfig
+      summary: Get report config
+      description: This method returns a single config based on config_id
+      tags:
+        - Reports
+      security:
+        - adminAuth: [ ]
+      responses:
+        200:
+          $ref: '#/components/responses/ReportWithOwner'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        500:
+          description: internal server error 
+
+  /metrics/unit:
+    post:
+      operationId: getUnitMetricFilter
+      summary: Get unit metric filter
+      description: Get unit metric by filter
+      tags:
+        - Metrics
+      parameters:
+        - $ref: '#/components/parameters/StartDate'
+        - $ref: '#/components/parameters/EndDate'
+        - $ref: '#/components/parameters/Granularity'
+      requestBody:
+        $ref: '#/components/requestBodies/UnitMetricFilter'
+      responses:
+        200:
+          $ref: '#/components/responses/UnitMetricResponse'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        500:
+          description: internal server error
+    get:
+      operationId: getUnitMetricFilters
+      summary: Get unit metric filters
+      description: Get unit metric filters
+      tags:
+        - Metrics
+      responses:
+        200:
+          $ref: '#/components/responses/SavedUnitMetricFilters'
+        500:
+          description: internal server error
+
+  /metrics/cost:
+    post:
+      operationId: getCostMetric
+      summary: Get cost metric
+      description: Get cost metric by filter
+      tags:
+        - Metrics
+      parameters:
+        - $ref: '#/components/parameters/StartDate'
+        - $ref: '#/components/parameters/EndDate'
+        - $ref: '#/components/parameters/Granularity'
+      requestBody:
+        $ref: '#/components/requestBodies/CostMetricFilter'
+      responses:
+        200:
+          $ref: '#/components/responses/CostMetricResponse'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        500:
+          description: internal server error
+
+  /metrics/unit/save:
+    post:
+      operationId: SavedUnitMetricFilter
+      summary: Save unit metric filter
+      description: Save unit metric filter
+      tags:
+        - Metrics
+      requestBody:
+        $ref: '#/components/requestBodies/SavedUnitMetricFilter'
+      responses:
+        200:
+          $ref: '#/components/responses/MetricFilterResponse'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        500:
+          description: internal server error
+
+  /metrics/unit/{filter_id}:
+    post:
+      operationId: SavedUnitMetricFilter
+      summary: Save unit metric filter
+      description: Save unit metric filter
+      tags:
+        - Metrics
+      responses:
+        200:
+          $ref: '#/components/responses/MetricFilterResponse'
+        500:
+          description: internal server error
+
+  /metrics/unit/constructor:
+    get:
+      operationId: getUnitMetricConstructor
+      summary: Get Unit Metric Constructor
+      description: Get resources for unit metric filter page
+      tags:
+        - Metrics
+      responses:
+        200:
+          $ref: '#/components/responses/UnitMetricConstructor'
+        500:
+          description: internal server error
+
+  /metrics/cost/constructor:
+    get:
+      operationId: getCostMetricConstructor
+      summary: Get Cost Metric Constructor
+      description: Get resources for the page cost overview filters
+      tags:
+        - Metrics
+      responses:
+        200:
+          $ref: '#/components/responses/CostMetricConstructor'
+        500:
+          description: internal server error
+
+components:
+  responses:
+    User:
+      description: User profile
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/User'
+
+    DataCollection:
+      description: Data collection config
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DataCollection'
+
+    DataCollections:
+      description: Data collection configs
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DataCollections'
+
+    Organizations:
+      description: Organizations
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Organizations'
+
+    Report:
+      description: Report
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Report'
+    
+    ReportWithOwner:
+      description: Report
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ReportWithOwner'
+
+    Reports:
+      description: Reports
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Reports'
+
+    Unauthorized:
+      description: Missing or invalid social_login token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    BadRequest:
+      description: Bad request body
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    AuthSuccessful:
+      description: OK
+      headers:
+        Set-Cookie:
+          description: Set social_login token
+          schema:
+            type: string
+            example: token={jwt_token}; Domain=localhost; HttpOnly; Max-Age=36000s; Path=/
+
+    VerificationSuccessful:
+      description: OK
+
+    AuthDialog:
+      description: Auth dialog
+      headers:
+        Location:
+          description: Link to social_login dialog
+          schema:
+            type: string
+            format: uri
+            example: https://example.com/login/oauth/authorize?redirect_uri={redirect_uri}&client_id={client_id}&scope=public_profile,email
+
+    UnitMetricResponse:
+      description: Data for chart
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UnitMetricResponse'
+
+    CostMetricResponse:
+      description: Data for chart
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CostMetricResponse'
+
+    MetricFilterResponse:
+      description: Saved filter
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SavedMetricFilter'
+
+    SavedUnitMetricFilters:
+      description: Saved filters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SavedUnitMetricFilters'
+
+    CostMetricConstructor:
+      description: CUR resources for cost overview filters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CURResources'
+
+    UnitMetricConstructor:
+      description: Resources for unit metric filters page
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UnitMetricConstructor'
+
+# -------------------------
+
+  schemas:
+    User:
+      description: User profile
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+          example: 1234
+        name:
+          type: string
+          example: John Doe
+        email:
+          type: string
+          format: email
+          example: john.doe@example.com
+        is_confirmed:
+          type: boolean
+          readOnly: true
+        is_active:
+          type: boolean
+          readOnly: true
+
+    UserResponse:
+      description: User profile
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+          example: 1234
+        name:
+          type: string
+          example: John Doe
+        email:
+          type: string
+          format: email
+          example: john.doe@example.com
+
+    Organization:
+      description: organization
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+          example: 1234
+        name:
+          type: string
+          example: Some LLC
+        owner_id:
+          type: integer
+          format: int64
+          readOnly: true
+          example: 1234
+    
+    OrganizationResponse:
+      description: organization
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+          example: 1234
+        name:
+          type: string
+          example: Some LLC
+
+    Organizations:
+      type: array
+      items:
+        $ref: '#/components/schemas/Organization'
+
+    DataCollectionRequestBody:
+      description: Create data collection config
+      properties:
+        data_source_id:
+          type: string
+          example: AWSCUR
+        cadence:
+          type: string
+          example: daily
+        collection_details:
+          type: object
+          example: '{"aws_account_id": "1234"}'
+
+    AdminDataCollectionRequestBody:
+      description: Create data collection config for Cloudthread Admin
+      properties:
+        organization_id:
+          type: integer
+          format: int64
+          readOnly: true
+          example: 1234
+        data_source_id:
+          type: string
+          example: AWSCUR
+        cadence:
+          type: string
+          example: daily
+        collection_details:
+          type: object
+          example: '{"aws_account_id": "1234"}'
+
+    DataCollection:
+      description: Response data collection config
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+          example: 1234
+        organization_id:
+          type: integer
+          format: int64
+          readOnly: true
+          example: 1234
+        data_source_id:
+          type: string
+          example: AWSCUR
+        cadence:
+          type: string
+          example: weekly
+        collection_details:
+          type: object
+          example: '{"aws_account_id": "1234"}'
+
+    DataCollections:
+      type: array
+      items:
+        $ref: '#/components/schemas/DataCollection'
+
+    ReportRequestBody:
+      description: Create report config
+      properties:
+        report_type_id:
+          type: string
+          example: GENERALCOST
+        cadence:
+          type: string
+          example: weekly
+        report_details:
+          type: object
+          example: '{"email_recipients": [x@y.com],}'
+        name:
+          type: string
+          example: Report 1
+
+    Report:
+      description: Response report config
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+          example: 1234
+        owner_id:
+          type: integer
+          format: int64
+          readOnly: true
+          example: 1234
+        organization_id:
+          type: integer
+          format: int64
+          readOnly: true
+          example: 1234
+        report_type_id:
+          type: string
+          example: GENERALCOST
+        cadence:
+          type: string
+          example: weekly
+        report_details:
+          type: object
+          example: '{"email_recipients": [x@y.com],}'
+        name:
+          type: string
+          example: Report 1
+
+    ReportWithOwner:
+      description: Response report config
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+          example: 1234
+        owner:
+          type: object
+          $ref: '#/components/schemas/UserResponse'
+        organization:
+          type: object
+          $ref: '#/components/schemas/OrganizationResponse'
+        report_type_id:
+          type: string
+          example: GENERALCOST
+        cadence:
+          type: string
+          example: weekly
+        report_details:
+          type: object
+          example: '{"email_recipients": [x@y.com],}'
+        name:
+          type: string
+          example: Report 1
+
+    Reports:
+      type: array
+      items:
+        $ref: '#/components/schemas/ReportWithOwner'
+
+    SocialLogin:
+      description: User's social account
+      properties:
+        id:
+          type: string
+          format: int64
+          example: 1234
+        provider:
+          $ref: '#/components/schemas/Provider'
+
+    Provider:
+      type: string
+      enum:
+        - google
+        - github
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+          required:
+            - code
+
+    SignIn:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+
+    SignUp:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+        name:
+          type: string
+        company_name:
+          type: string
+
+    UnitMetricFilter:
+      type: object
+      properties:
+        numerator:
+          $ref: '#/components/schemas/MetricFilter'
+        denominator:
+          $ref: '#/components/schemas/MetricFilter'
+
+    UnitMetricResponse:
+      type: object
+      properties:
+        metadata:
+          type: object
+          properties:
+            unit_metric:
+              $ref: '#/components/schemas/ChartData'
+            numerator:
+              $ref: '#/components/schemas/ChartData'
+            denominator:
+              $ref: '#/components/schemas/ChartData'
+        data:
+          type: array
+          items:
+            type: object
+
+    MetricFilter:
+      type: object
+      properties:
+        operator:
+          type: string
+        conditions:
+          type: array
+          items:
+            type: object
+
+    SavedUnitMetricFilter:
+      type: object
+      properties:
+        name:
+          type: string
+        filter:
+          $ref: '#/components/schemas/UnitMetricFilter'
+        id:
+          type: integer
+        owner_id:
+          type: integer
+        organization_id:
+          type: integer
+
+    SavedUnitMetricFilters:
+      type: array
+      items:
+        $ref: '#/components/schemas/SavedUnitMetricFilter'
+
+    CostMetricResponse:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/ChartData'
+        data:
+          type: array
+          items:
+            type: object
+
+    ChartData:
+      type: object
+      properties:
+        x_axis:
+          type: object
+          properties:
+            column:
+              type: string
+            granularity:
+              type: string
+            range:
+              type: array
+              items:
+                type: string
+        dimensions:
+          type: array
+        y_axis:
+          type: object
+          properties:
+            column:
+              type: string
+            range:
+              type: array
+              items:
+                type: string
+
+    SavedMetricFilter:
+      type: object
+      properties:
+        id:
+          type: integer
+        filter:
+          $ref: '#/components/schemas/MetricFilter'
+        owner_id:
+          type: integer
+        name:
+          type: string
+        organization_id:
+          type: integer
+
+    CURResources:
+      type: object
+      properties:
+        services:
+          type: array
+          items:
+            type: string
+        region_names:
+          type: array
+          items:
+            type: string
+        aws_account_ids:
+          type: array
+          items:
+            type: integer
+        tags:
+          type: array
+          items:
+            type: object
+
+    CWResources:
+      type: object
+      properties:
+        region_names:
+          type: array
+          items:
+            type: string
+        aws_account_ids:
+          type: array
+          items:
+            type: integer
+        metrics:
+          type: object
+        tags:
+          type: array
+          items:
+            type: object
+
+    UnitMetricConstructor:
+      type: object
+      properties:
+        numerator:
+          $ref: '#/components/schemas/CURResources'
+        denominator:
+          $ref: '#/components/schemas/CWResources'
+
+# -------------------------
+
+  requestBodies:
+    User:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/User'
+
+    DataCollection:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DataCollectionRequestBody'
+
+    AdminDataCollection:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AdminDataCollectionRequestBody'
+
+    Report:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ReportRequestBody'
+
+    SignIn:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SignIn'
+
+    SignUp:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SignUp'
+
+    UnitMetricFilter:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UnitMetricFilter'
+
+    SavedUnitMetricFilter:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SavedUnitMetricFilter'
+
+    CostMetricFilter:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MetricFilter'
+
+# -------------------------
+
+  securitySchemes:
+    tokenAuth:
+      description: Auth token
+      type: apiKey
+      in: cookie
+      name: token
+
+    adminAuth:
+      description: Admin token
+      type: apiKey
+      in: header
+      name: admin-token
+
+# -------------------------
+
+  parameters:
+    OrganizationId:
+      name: organization_id
+      in: query
+      description: Defined by DB
+      required: false
+      schema:
+        type: integer
+
+    OwnerId:
+      name: owner_id
+      in: query
+      description: User id who owns object
+      required: false
+      schema:
+        type: integer
+
+    DataSourceId:
+      name: data_source_id
+      in: query
+      description: Data source type
+      required: false
+      schema:
+        type: string
+
+    DataCollectionCadence:
+      name: cadence
+      in: query
+      description: Data collection cadence
+      schema:
+        type: string
+
+    ReportTypeId:
+      name: report_type_id
+      in: query
+      description: Report type
+      required: false
+      schema:
+        type: string
+  
+    ReportCadence:
+      name: cadence
+      in: query
+      description: Report cadence
+      required: false
+      schema:
+        type: string
+
+    ReportName:
+      name: name
+      in: query
+      description: Report name
+      required: false
+      schema:
+        type: string
+
+    SocialServiceAuthCode:
+      name: code
+      in: query
+      description: Received from social service
+      required: true
+      schema:
+        type: string
+
+    VerificationToken:
+      name: token
+      in: query
+      description: Token that was sent to user's email
+      required: true
+      schema:
+        type: string
+
+    StartDate:
+      name: start_date
+      in: query
+      description: Date from (incl)
+      required: false
+      schema:
+        type: string
+
+    EndDate:
+      name: end_date
+      in: query
+      description: Date from (incl)
+      required: false
+      schema:
+        type: string
+
+    Granularity:
+      name: granularity
+      in: query
+      description: Granularity
+      required: false
+      schema:
+        type: string

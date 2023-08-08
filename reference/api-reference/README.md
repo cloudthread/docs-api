@@ -1,4 +1,4 @@
-# Quick Start
+# API Reference
 
 Cloudthread provides a powerful and flexible REST Developer API to help you get the most out of your data.
 
@@ -24,7 +24,9 @@ Cloudthread provides the ability to send custom data to our systems that can the
 
 In order to send custom data, you must provision a **Custom Data - Data Stream Token** on the Cloudthread platform within the **Settings** tab.
 
-* [Data Ingestion](reference/api-reference/custom_data.md)
+{% content-ref url="custom_data.md" %}
+[custom\_data.md](custom\_data.md)
+{% endcontent-ref %}
 
 Data sent via this API will appear in **Costs Overview** and **Unit Metrics Lab** on Cloudthread's platform.
 
@@ -32,7 +34,9 @@ Data sent via this API will appear in **Costs Overview** and **Unit Metrics Lab*
 
 Cloudthread provides the ability to send webhook Events that can be overlayed on top of your Cost Views and Unit Metrics.
 
-* [Events Overlay Ingestion](reference/api-reference/events.md)
+{% content-ref url="events.md" %}
+[events.md](events.md)
+{% endcontent-ref %}
 
 Data sent via this API will appear in **Costs Overview** and **Unit Metrics Lab** on Cloudthread's platform.
 
@@ -40,11 +44,26 @@ Data sent via this API will appear in **Costs Overview** and **Unit Metrics Lab*
 
 Cloudthread provides the ability to fetch a Tag Catalog entry via catalog key.
 
-* [Tag Catalog Fetch](reference/api-reference/tag_catalog.md)
-
+{% content-ref url="tag_catalog.md" %}
+[tag\_catalog.md](tag\_catalog.md)
+{% endcontent-ref %}
 
 ## Cost View and Unit Metric Data Fetch
 
 Cloudthread provides the ability to fetch a Cost View and Unit Metric data.
 
-* [Metric Fetch](reference/api-reference/metrics.md)
+{% content-ref url="metrics.md" %}
+[metrics.md](metrics.md)
+{% endcontent-ref %}
+
+## Users and Teams setup
+
+API can be used to set up Users and Teams.
+
+{% content-ref url="users.md" %}
+[users.md](users.md)
+{% endcontent-ref %}
+
+{% content-ref url="teams.md" %}
+[teams.md](teams.md)
+{% endcontent-ref %}
