@@ -49,6 +49,21 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetTagsPayload'
+
+  /cost-optimization/opportunities/list:
+    post:
+      operationId: get_opportunities
+      requestBody:
+        $ref: '#/components/requestBodies/GetOpportunitiesQuery'
+      security:
+        - ApiKeyAuth: [ ]
+      responses:
+        200:
+          description: opportunities list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetOpportunitiesResponse'
   
   /cost/metric/{metric_id}:
     get:
@@ -104,7 +119,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetUsersResponse'
-
   /teams:
     get:
       operationId: get_teams_within_org
@@ -314,6 +328,13 @@ components:
           schema:
             $ref: '#/components/schemas/CreateEvents'
 
+    GetOpportunitiesQuery:
+      description: get opportunities payload
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GetOpportunitiesQuery'
+
     CreateTeam:
       description: create team
       content:
@@ -374,6 +395,95 @@ components:
           example: 3.14
         custom_dimensions:
           type: object
+
+    GetOpportunitiesQuery:
+      properties:
+        opportunity_type_id:
+          type: string
+        status:
+          type: string
+        code_automation:
+          type: boolean
+        thread_id:
+          type: integer
+        account:
+          type: string
+        region:
+          type: string
+        service:
+          type: string
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tags'
+        category:
+          type: string
+        record_id:
+          type: string
+        source:
+          type: string
+        github_pr_key:
+          type: string
+        secondary_id:
+          type: integer
+        last_detected_start_date:
+          type: string
+          format: date
+        last_detected_end_date:
+          type: string
+          format: date
+        status_updated_start_date:
+          type: string
+          format: date
+        status_updated_end_date:
+          type: string
+          format: date
+        details:
+          type: boolean
+        priority:
+          type: integer
+
+    Tags:
+      properties:
+        Key:
+          type: string
+        Value:
+          type: string
+
+    GetOpportunities:
+      properties:
+        id:
+          type: integer
+        source:
+          type: string
+        opportunity_details:
+          type: object
+        opportunity_type_id:
+          type: string
+        cost_impact:
+          type: number
+        record_id:
+          type: string
+        status_updated_at:
+          type: string
+          format: date-time
+        created_at:
+          type: string
+          format: date-time
+        status:
+          type: string
+        last_detected_at:
+          type: string
+          format: date-time
+        thread_id:
+          type: integer
+        github_pr_key:
+          type: string
+
+    GetOpportunitiesResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/GetOpportunities'
 
     CreateEvents:
       properties:
