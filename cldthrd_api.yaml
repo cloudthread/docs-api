@@ -1,75 +1,121 @@
 openapi: 3.0.3
 info:
-  version: 0.0.1
+  version: 0.0.2
   title: Cloudthread API
+  description: |
+      This API allows for interaction with Cloudthread cloud cost management Platform.
+  termsOfService: https://www.cloudthread.io/terms-of-use
+  contact: 
+    email: hey@cloudthread.io
 
 servers:
   - url: 'https://api.cloudthread.io'
 
+tags:
+  - name: streams
+    description: Data ingestion streams
+    externalDocs:
+      description: Find out more
+      url: https://docs.cloudthread.io/v/api-docs/reference/api-reference/custom_data
+  - name: events
+    description: Custom events that can be overlayed on top of your Cost Views and Unit Metrics
+    externalDocs:
+      description: Find out more
+      url: https://docs.cloudthread.io/v/api-docs/reference/api-reference/events
+  - name: tag-catalog
+    description: Tag catalog manipulation
+    externalDocs:
+      description: Find out more
+      url: https://docs.cloudthread.io/v/api-docs/reference/api-reference/tag_catalog
+  - name: cost-views
+    description: Cost Views manipulation
+    externalDocs:
+      description: Find out more
+      url: https://docs.cloudthread.io/v/api-docs/reference/api-reference/metrics#cost-view-fetch
+  - name: unit-metrics
+    description: Unit Metric manipulation
+    externalDocs:
+      description: Find out more
+      url: https://docs.cloudthread.io/v/api-docs/reference/api-reference/metrics#unit-metric-fetch
+  - name: users
+    description: Users manipulation
+    externalDocs:
+      description: Find out more
+      url: https://docs.cloudthread.io/v/api-docs/reference/api-reference/users
+
+  - name: teams
+    description: Teams manipulation
+    externalDocs:
+      description: Find out more
+      url: https://docs.cloudthread.io/v/api-docs/reference/api-reference/teams
+  
+  - name: savings-opportunities
+    description: Savings Opportunities manipulation
+    externalDocs:
+      description: Find out more
+      url: https://docs.cloudthread.io/v/api-docs/reference/api-reference/savings-hub/opportunities
+
 paths:
   /streams/ingest:
     post:
+      description: Ingests data into created Data Stream
       operationId: ingest_stream_data
+      tags:
+        - streams
       requestBody:
         $ref: '#/components/requestBodies/StreamData'
       security:
         - ApiKeyAuth: []
       responses:
         201:
-          description: created
+          description: Ingested successfully
         400:
-          description: validation error
+          description: Validation error
         404:
-          description: no stream found
+          description: No stream found
 
   /events:
     post:
+      description: Ingests the custom events data that can be overlayed on top of your Cost Views and Unit Metrics
       operationId: create_events
+      tags:
+        - events
       requestBody:
         $ref: '#/components/requestBodies/CreateEvents'
       security:
         - ApiKeyAuth: [ ]
       responses:
         201:
-          description: created
+          description: Ingested successfully
         400:
-          description: validation error
+          description: Validation error
         404:
-          description: no team found
+          description: No team found
 
   /tag-catalog:
     get:
+      description: Fetches a Tag Catalog entry via catalog key
       operationId: get_tag_catalog
+      tags:
+        - tag-catalog
       parameters:
        - $ref: '#/components/parameters/CatalogKey'
       security:
         - ApiKeyAuth: [ ]
       responses:
         200:
-          description: tag data
+          description: Tag catalog data
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetTagsPayload'
-
-  /cost-optimization/opportunities/list:
-    post:
-      operationId: get_opportunities
-      requestBody:
-        $ref: '#/components/requestBodies/GetOpportunitiesQuery'
-      security:
-        - ApiKeyAuth: [ ]
-      responses:
-        200:
-          description: opportunities list
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetOpportunitiesResponse'
+                $ref: '#/components/schemas/GetTagCatalogPayload'
   
   /cost/metric/{metric_id}:
     get:
+      description: Returns cost data from Cloudthread Cost View
       operationId: get_cost_metric_filter_data
+      tags:
+        - cost-views
       parameters:
        - $ref: '#/components/parameters/MetricID'
        - $ref: '#/components/parameters/StartDate'
@@ -82,7 +128,7 @@ paths:
         - ApiKeyAuth: [ ]
       responses:
         200:
-          description: metric data
+          description: Metric data
           content:
             application/json:
               schema:
@@ -90,7 +136,10 @@ paths:
 
   /unit/metric/{metric_id}:
     get:
+      description: Returns cost data from Cloudthread Unit Metric
       operationId: get_unit_metric_filter_data
+      tags:
+        - unit-metrics
       parameters:
        - $ref: '#/components/parameters/MetricID'
        - $ref: '#/components/parameters/StartDate'
@@ -103,7 +152,7 @@ paths:
         - ApiKeyAuth: [ ]
       responses:
         200:
-          description: metric data
+          description: Metric data
           content:
             application/json:
               schema:
@@ -111,95 +160,117 @@ paths:
 
   /users:
     get:
+      description: Allows to return data on registered Users of Cloudthread platform
       operationId: get_users
+      tags:
+        - users
       security:
         - ApiKeyAuth: [ ]
       responses:
         200:
-          description: list of users
+          description: List of users
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetUsersResponse'
+  
   /teams:
     get:
+      description: Fetches list of Teams within the org
       operationId: get_teams_within_org
+      tags:
+        - teams
       security:
         - ApiKeyAuth: [ ]
       responses:
         200:
-          description: get teams
+          description: List of teams
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetTeamsResponse'
 
     post:
+      description: Creates new Team within the org
       operationId: create_team
+      tags:
+        - teams
       requestBody:
         $ref: '#/components/requestBodies/CreateTeam'
       security:
         - ApiKeyAuth: [ ]
       responses:
         200:
-          description: create team
+          description: Team created successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TeamResponse'
         400:
-          description: validation error
+          description: Validation error
         404:
-          description: slack integration or slack channel not found
+          description: Slack integration or Slack channel not found
 
   /teams/{team_id}:
     get:
+      description: Fetches data on a specific Team within the org
       operationId: get_team_within_org
+      tags:
+        - teams
       security:
         - ApiKeyAuth: [ ]
       responses:
         200:
-          description: get team
+          description: Get team
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TeamResponse'
     patch:
+      description: Updates existing Team definition
       operationId: update_team
+      tags:
+        - teams      
       requestBody:
         $ref: '#/components/requestBodies/CreateTeam'
       security:
         - ApiKeyAuth: [ ]
       responses:
         200:
-          description: updated
+          description: Updated
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TeamResponse'
         400:
-          description: validation error
+          description: Validation error
         404:
-          description: slack integration/slack channel not found/team not found
+          description: Slack integration/slack channel not found/team not found
 
     delete:
+      description: Deletes existing Team
       operationId: delete_team
+      tags:
+        - teams   
       security:
         - ApiKeyAuth: [ ]
       responses:
         204:
-          description: deleted
+          description: Deleted
         404:
-          description: team not found
+          description: Team not found
 
   /teams/{team_id}/members:
     get:
       operationId: get_team_members
+      description: Fetches list of members of specific Team
+      tags:
+        - teams  
       security:
         - ApiKeyAuth: [ ]
       responses:
         200:
-          description: list of team members
+          description: List of team members
           content:
             application/json:
               schema:
@@ -208,13 +279,16 @@ paths:
   /teams/{team_id}/members/assign:
     post:
       operationId: assign_users_to_team
+      description: Adds new Users to specific Team
+      tags:
+        - teams  
       requestBody:
         $ref: '#/components/requestBodies/AssignUsersToTeam'
       security:
         - ApiKeyAuth: [ ]
       responses:
         200:
-          description: list of team members
+          description: List of team members
           content:
             application/json:
               schema:
@@ -223,17 +297,38 @@ paths:
   /teams/{team_id}/members/delete:
     post:
       operationId: assign_users_to_team
+      description: Deletes Users from specific Team
+      tags:
+        - teams  
       requestBody:
         $ref: '#/components/requestBodies/RemoveUsersFromTeam'
       security:
         - ApiKeyAuth: [ ]
       responses:
         200:
-          description: list of team members
+          description: List of team members
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetUsersResponse'
+
+  /cost-optimization/opportunities/list:
+    post:
+      operationId: get_opportunities
+      description: Fetches the list of savings opportunities
+      tags:
+        - savings-opportunities
+      requestBody:
+        $ref: '#/components/requestBodies/GetOpportunitiesQuery'
+      security:
+        - ApiKeyAuth: [ ]
+      responses:
+        200:
+          description: List of savings opportunities
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetOpportunitiesResponse'
 
 components:
   securitySchemes:
@@ -250,7 +345,7 @@ components:
       required: true
       schema:
         type: string
-
+        
     MetricID:
       name: metric_id
       in: path
@@ -289,7 +384,9 @@ components:
       description: Cost Type or Cost Column ID
       required: false
       schema:
-        type: string or integer
+        oneOf:
+          - type: string
+          - type: integer
 
     Amortization:
       name: amortization
@@ -305,7 +402,7 @@ components:
       description: Excluded Payment Types
       required: false
       schema:
-        type: comma-seperated string
+        type: string
 
     Granularity:
       name: granularity
@@ -317,38 +414,32 @@ components:
 
   requestBodies:
     StreamData:
-      description: stream data
+      description: Definition of the data stream
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/StreamData'
 
     CreateEvents:
-      description: create events
+      description: Create events for Events Overlay
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/CreateEvents'
 
-    GetOpportunitiesQuery:
-      description: get opportunities payload
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GetOpportunitiesQuery'
-
     CreateTeam:
-      description: create team
+      description: Create team
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/CreateTeamRequest'
 
     AssignUsersToTeam:
-      description: assign users to team
+      description: Assign Users to Team
       content:
         application/json:
           schema:
+            description: List of Users
             properties:
               users_ids:
                 type: array
@@ -356,19 +447,31 @@ components:
                   type: string
 
     RemoveUsersFromTeam:
-      description: remove users from team
+      description: Remove users from Team
       content:
         application/json:
           schema:
+            description: List of Users
             properties:
               users_ids:
                 type: array
                 items:
                   type: string
 
+    GetOpportunitiesQuery:
+      description: Query to filter opportunities
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GetOpportunitiesQuery'
+  
   schemas:
     StreamData:
-      description: stream data
+      description: Stream data
+      required:
+        - data_stream_token
+        - metric_agg_func
+        - data
       properties:
         data_stream_token:
           type: string
@@ -382,111 +485,33 @@ components:
             $ref: '#/components/schemas/StreamDataPayload'
 
     StreamDataPayload:
+      description: Payload for data ingestion stream
+      required:
+        - timestamp
+        - metric_name
+        - metric_value
       properties:
         timestamp:
           type: string
           format: date-time
-          example: 1234567890
-          description: can be either timestamp or datetime string
+          example: yyyyMMddHHmmss
+          description: Can be either timestamp or datetime string
         metric_name:
           type: string
+          example: customers
+          description: The name pf the metric being ingested
         metric_value:
           type: number
           format: float
           example: 3.14
+          description: The value of the metric being ingested
         custom_dimensions:
           type: object
-
-    GetOpportunitiesQuery:
-      properties:
-        opportunity_type_id:
-          type: string
-        status:
-          type: string
-        code_automation:
-          type: boolean
-        thread_id:
-          type: integer
-        account:
-          type: string
-        region:
-          type: string
-        service:
-          type: string
-        tags:
-          type: array
-          items:
-            $ref: '#/components/schemas/Tags'
-        category:
-          type: string
-        record_id:
-          type: string
-        source:
-          type: string
-        github_pr_key:
-          type: string
-        secondary_id:
-          type: integer
-        last_detected_start_date:
-          type: string
-          format: date
-        last_detected_end_date:
-          type: string
-          format: date
-        status_updated_start_date:
-          type: string
-          format: date
-        status_updated_end_date:
-          type: string
-          format: date
-        details:
-          type: boolean
-        priority:
-          type: integer
-
-    Tags:
-      properties:
-        Key:
-          type: string
-        Value:
-          type: string
-
-    GetOpportunities:
-      properties:
-        id:
-          type: integer
-        source:
-          type: string
-        opportunity_details:
-          type: object
-        opportunity_type_id:
-          type: string
-        cost_impact:
-          type: number
-        record_id:
-          type: string
-        status_updated_at:
-          type: string
-          format: date-time
-        created_at:
-          type: string
-          format: date-time
-        status:
-          type: string
-        last_detected_at:
-          type: string
-          format: date-time
-        thread_id:
-          type: integer
-        github_pr_key:
-          type: string
-
-    GetOpportunitiesResponse:
-      type: array
-      items:
-        $ref: '#/components/schemas/GetOpportunities'
+          description: Map of up to 10 key value pairs that you will be able to segment the data by on the Cloudthread platform
+          example: [[region1, 20.5], [region2, 7.0]]
 
     CreateEvents:
+      description: List of Events with their properties
       properties:
         data:
           type: array
@@ -494,28 +519,40 @@ components:
             $ref: '#/components/schemas/CreateEventsData'
 
     CreateEventsData:
+      description: Properties defining the Event
+      required:
+        - timestamp
+        - payload
       properties:
         timestamp:
           type: string
           format: date-time
-          example: 1234567890
+          example: yyyyMMddHHmmss
           description: can be either timestamp or datetime string
-        payload:
-          $ref: '#/components/schemas/EventsPayload'
         team_id:
           type: integer
           example: 1
+          description: ID of the team that events are relevant to (if teams are defined)
+        payload:
+          $ref: '#/components/schemas/EventsPayload'
 
     EventsPayload:
+      description: Events data payload
+      required:
+        - type
       properties:
         type:
           type: string
+          example: deploy
         description:
           type: string
+          example: Major code improvements
         event_url:
           type: string
+          example: https://foo.org
 
-    GetTagsPayload:
+    GetTagCatalogPayload:
+      description: Tag Catalog fetch response
       properties:
         tags:
           type: object
@@ -523,13 +560,16 @@ components:
             type: string
 
     GetCostViewPayload:
+      description: Data returned by query of Cost View
       properties:
         data:
           type: array
+          description: List of Cost View data points (timeseries)
           items:
             $ref: '#/components/schemas/GetCostViewDataPoint'
 
     GetCostViewDataPoint:
+      description: Data point for Cost View for specific date
       properties:
         current_timeframe_cost:
           type: number
@@ -545,15 +585,19 @@ components:
           format: float
         date:
           type: string
+          example: YYYYMMDD
 
     GetUnitMetricPayload:
+      description: Data returned by query of Unit Metric
       properties:
         data:
           type: array
+          description: List of Unit Metric data points (timeseries)
           items:
             $ref: '#/components/schemas/GetUnitMetricDataPoint'
 
     GetUnitMetricDataPoint:
+      description: Data point for Unit Metric for specific date
       properties:
         current_timeframe_denominator:
           type: number
@@ -587,6 +631,11 @@ components:
           type: string
 
     User:
+      description: Registered User on Cloudthread platform
+      required:
+        - id
+        - email
+        - name
       properties:
         id:
           type: string
@@ -596,11 +645,16 @@ components:
           type: string
 
     GetUsersResponse:
+        description: List of Users
         type: array
         items:
           $ref: '#/components/schemas/User'
 
     CreateTeamRequest:
+      description: Properties defining the Team
+      required:
+        - id
+        - name
       properties:
         id:
           type: string
@@ -674,6 +728,7 @@ components:
             type: integer
 
     TeamResponse:
+      description: Properties defining the Team
       properties:
         id:
           type: string
@@ -747,6 +802,104 @@ components:
             type: integer
 
     GetTeamsResponse:
+      description: List of Teams with their properties
       type: array
       items:
         $ref: '#/components/schemas/TeamResponse'
+
+    GetOpportunitiesQuery:
+      description: Opportunity properties
+      properties:
+        opportunity_type_id:
+          type: string
+        status:
+          type: string
+        code_automation:
+          type: boolean
+        thread_id:
+          type: integer
+        account:
+          type: string
+        region:
+          type: string
+        service:
+          type: string
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tags'
+        category:
+          type: string
+        record_id:
+          type: string
+        source:
+          type: string
+        github_pr_key:
+          type: string
+        secondary_id:
+          type: integer
+        last_detected_start_date:
+          type: string
+          format: date
+        last_detected_end_date:
+          type: string
+          format: date
+        status_updated_start_date:
+          type: string
+          format: date
+        status_updated_end_date:
+          type: string
+          format: date
+        details:
+          type: boolean
+        priority:
+          type: integer
+    
+    Tags:
+      description: Cost allocation resource tags
+      properties:
+        Key:
+          type: string
+        Value:
+          type: string
+    
+    GetOpportunitiesResponse:
+      description: List of filtered opportunities
+      type: array
+      items:
+        $ref: '#/components/schemas/GetOpportunities'  
+    
+    GetOpportunities:
+      description: Opportunity data
+      properties:
+        id:
+          type: integer
+        source:
+          type: string
+        opportunity_details:
+          type: object
+        opportunity_type_id:
+          type: string
+        cost_impact:
+          type: number
+        record_id:
+          type: string
+        status_updated_at:
+          type: string
+          format: date-time
+        created_at:
+          type: string
+          format: date-time
+        status:
+          type: string
+        last_detected_at:
+          type: string
+          format: date-time
+        thread_id:
+          type: integer
+        github_pr_key:
+          type: string
+
+externalDocs:
+  description: Find out more about Cloudthread platform
+  url: https://docs.cloudthread.io
