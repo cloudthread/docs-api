@@ -42,18 +42,16 @@ tags:
     externalDocs:
       description: Find out more
       url: https://docs.cloudthread.io/v/api-docs/reference/api-reference/users
-
   - name: teams
     description: Teams manipulation
     externalDocs:
       description: Find out more
       url: https://docs.cloudthread.io/v/api-docs/reference/api-reference/teams
-  
   - name: savings-opportunities
     description: Savings Opportunities manipulation
     externalDocs:
       description: Find out more
-      url: https://docs.cloudthread.io/v/api-docs/reference/api-reference/savings-hub/opportunities
+      url: https://docs.cloudthread.io/v/api-docs/reference/api-reference/savings-hub/opportunities-explorer
 
 paths:
   /streams/ingest:
