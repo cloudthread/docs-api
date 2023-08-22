@@ -58,7 +58,7 @@ tags:
 paths:
   /streams/ingest:
     post:
-      description: Ingests data into created Data Stream
+      summary: Ingests data into created Data Stream
       operationId: ingest_stream_data
       tags:
         - streams
@@ -76,6 +76,7 @@ paths:
 
   /events:
     post:
+      summary: Ingests the custom events data
       description: Ingests the custom events data that can be overlayed on top of your Cost Views and Unit Metrics
       operationId: create_events
       tags:
@@ -94,7 +95,7 @@ paths:
 
   /tag-catalog:
     get:
-      description: Fetches a Tag Catalog entry via catalog key
+      summary: Fetches a Tag Catalog entry via catalog key
       operationId: get_tag_catalog
       tags:
         - tag-catalog
@@ -112,7 +113,7 @@ paths:
   
   /cost/metric/{metric_id}:
     get:
-      description: Returns cost data from Cloudthread Cost View
+      summary: Returns cost data from Cloudthread Cost View
       operationId: get_cost_metric_filter_data
       tags:
         - cost-views
@@ -136,7 +137,7 @@ paths:
 
   /unit/metric/{metric_id}:
     get:
-      description: Returns cost data from Cloudthread Unit Metric
+      summary: Returns cost data from Cloudthread Unit Metric
       operationId: get_unit_metric_filter_data
       tags:
         - unit-metrics
@@ -160,7 +161,8 @@ paths:
 
   /users:
     get:
-      description: Allows to return data on registered Users of Cloudthread platform
+      summary: Returns data on users
+      description: Returns data on registered Users of Cloudthread platform
       operationId: get_users
       tags:
         - users
@@ -176,6 +178,7 @@ paths:
   
   /teams:
     get:
+      summary: Returns list of Teams
       description: Fetches list of Teams within the org
       operationId: get_teams_within_org
       tags:
@@ -191,6 +194,7 @@ paths:
                 $ref: '#/components/schemas/GetTeamsResponse'
 
     post:
+      summary: Creates new Team
       description: Creates new Team within the org
       operationId: create_team
       tags:
@@ -213,6 +217,7 @@ paths:
 
   /teams/{team_id}:
     get:
+      summary: Returns specific Team
       description: Fetches data on a specific Team within the org
       operationId: get_team_within_org
       tags:
@@ -227,7 +232,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/TeamResponse'
     patch:
-      description: Updates existing Team definition
+      summary: Updates existing Team
       operationId: update_team
       tags:
         - teams      
@@ -248,7 +253,7 @@ paths:
           description: Slack integration/slack channel not found/team not found
 
     delete:
-      description: Deletes existing Team
+      summary: Deletes existing Team
       operationId: delete_team
       tags:
         - teams   
@@ -263,6 +268,7 @@ paths:
   /teams/{team_id}/members:
     get:
       operationId: get_team_members
+      summary: Returns list of Team members
       description: Fetches list of members of specific Team
       tags:
         - teams  
@@ -279,7 +285,7 @@ paths:
   /teams/{team_id}/members/assign:
     post:
       operationId: assign_users_to_team
-      description: Adds new Users to specific Team
+      summary: Adds new Users to specific Team
       tags:
         - teams  
       requestBody:
@@ -297,7 +303,7 @@ paths:
   /teams/{team_id}/members/delete:
     post:
       operationId: assign_users_to_team
-      description: Deletes Users from specific Team
+      summary: Deletes Users from specific Team
       tags:
         - teams  
       requestBody:
@@ -315,7 +321,7 @@ paths:
   /cost-optimization/opportunities/list:
     post:
       operationId: get_opportunities
-      description: Fetches the list of savings opportunities
+      summary: Returns the list of Savings Opportunities
       tags:
         - savings-opportunities
       requestBody:
@@ -468,6 +474,7 @@ components:
   schemas:
     StreamData:
       description: Stream data
+      type: object
       required:
         - data_stream_token
         - metric_agg_func
@@ -486,6 +493,7 @@ components:
 
     StreamDataPayload:
       description: Payload for data ingestion stream
+      type: object
       required:
         - timestamp
         - metric_name
@@ -512,6 +520,7 @@ components:
 
     CreateEvents:
       description: List of Events with their properties
+      type: object
       properties:
         data:
           type: array
@@ -520,6 +529,7 @@ components:
 
     CreateEventsData:
       description: Properties defining the Event
+      type: object
       required:
         - timestamp
         - payload
@@ -538,6 +548,7 @@ components:
 
     EventsPayload:
       description: Events data payload
+      type: object
       required:
         - type
       properties:
@@ -553,6 +564,7 @@ components:
 
     GetTagCatalogPayload:
       description: Tag Catalog fetch response
+      type: object
       properties:
         tags:
           type: object
@@ -561,6 +573,7 @@ components:
 
     GetCostViewPayload:
       description: Data returned by query of Cost View
+      type: object
       properties:
         data:
           type: array
@@ -570,6 +583,7 @@ components:
 
     GetCostViewDataPoint:
       description: Data point for Cost View for specific date
+      type: object
       properties:
         current_timeframe_cost:
           type: number
@@ -589,6 +603,7 @@ components:
 
     GetUnitMetricPayload:
       description: Data returned by query of Unit Metric
+      type: object
       properties:
         data:
           type: array
@@ -598,6 +613,7 @@ components:
 
     GetUnitMetricDataPoint:
       description: Data point for Unit Metric for specific date
+      type: object
       properties:
         current_timeframe_denominator:
           type: number
@@ -632,6 +648,7 @@ components:
 
     User:
       description: Registered User on Cloudthread platform
+      type: object
       required:
         - id
         - email
@@ -652,6 +669,7 @@ components:
 
     CreateTeamRequest:
       description: Properties defining the Team
+      type: object
       required:
         - id
         - name
@@ -729,6 +747,7 @@ components:
 
     TeamResponse:
       description: Properties defining the Team
+      type: object
       properties:
         id:
           type: string
@@ -809,6 +828,7 @@ components:
 
     GetOpportunitiesQuery:
       description: Opportunity properties
+      type: object
       properties:
         opportunity_type_id:
           type: string
@@ -857,6 +877,7 @@ components:
     
     Tags:
       description: Cost allocation resource tags
+      type: object
       properties:
         Key:
           type: string
@@ -871,6 +892,7 @@ components:
     
     GetOpportunities:
       description: Opportunity data
+      type: object
       properties:
         id:
           type: integer
