@@ -1,56 +1,66 @@
 # API Reference
 
-Cloudthread provides a powerful and flexible REST Developer API to help you get the most out of your data.
+Cloudthread provides a powerful and flexible **REST Developer API** to help you get the most out of your data.
 
-This page shows how to use the API, and what features are currently available.
+These docs show how to use the API, and what features are currently available.
+
+{% hint style="info" %}
+**Good to know:** All the API methods referenced in the docs are synced to a Swagger file URL (**OpenAPI v3**) and are kept up to date **automatically** with changes to the API.
+{% endhint %}
 
 ## Basic setup
 
-Cloudthread's Developer API lives at
+Cloudthread's **Developer API** lives at:
 
-`https://api.cloudthread.io`
+{% embed url="https://api.cloudthread.io" fullWidth="false" %}
 
-Cloudthread requires an API Token to process incoming developer API requests. Admin's have the ability to generate API Tokens on the Cloudthread platform within the **Settings** tab.
+{% hint style="warning" %}
+Cloudthread requires an **API Token** to process incoming developer API requests.&#x20;
+
+Admin's have the ability to generate API Tokens on the Cloudthread platform within the [Settings](http://127.0.0.1:5000/s/XCkDKj2xeiQhlyRGF6Wr/fundamentals/settings "mention") tab.
+{% endhint %}
 
 This API Token should be included in the headers for all Developer API requests as follows:
 
 `x-api-key: {API_TOKEN}`
 
-Any request without a valid token will be rejected.
+{% hint style="danger" %}
+Any request without a valid token will be **rejected**.
+{% endhint %}
 
-## Custom Data Ingestion
+## Custom Data ingestion
 
 Cloudthread provides the ability to send custom data to our systems that can then be used in your Cost Views and Unit Metrics.
 
-In order to send custom data, you must provision a **Custom Data - Data Stream Token** on the Cloudthread platform within the **Settings** tab.
+In order to send custom data, you must provision a **Custom Data - Data Stream Token** on the Cloudthread platform within the [Settings](http://127.0.0.1:5000/s/XCkDKj2xeiQhlyRGF6Wr/fundamentals/settings "mention") tab.
 
 {% content-ref url="custom_data.md" %}
 [custom\_data.md](custom\_data.md)
 {% endcontent-ref %}
 
-Data sent via this API will appear in **Costs Overview** and **Unit Metrics Lab** on Cloudthread's platform.
+Data sent via this API will appear in [Costs Overview](http://127.0.0.1:5000/s/XCkDKj2xeiQhlyRGF6Wr/fundamentals/cost-transparency/costs-overview "mention") and [Unit Metrics Lab](http://127.0.0.1:5000/s/XCkDKj2xeiQhlyRGF6Wr/fundamentals/unit-metrics/unit-metrics-lab "mention") on Cloudthread's platform.
 
-## Event Overlay Ingestion
+## Event Overlay ingestion
 
-Cloudthread provides the ability to send webhook Events that can be overlayed on top of your Cost Views and Unit Metrics.
+Cloudthread provides the ability to send **webhook** **events** that can be overlayed on top of your [Cost Views](http://127.0.0.1:5000/s/XCkDKj2xeiQhlyRGF6Wr/fundamentals/cost-transparency/key-concepts/cost-view "mention") and [Unit Metrics](http://127.0.0.1:5000/s/XCkDKj2xeiQhlyRGF6Wr/fundamentals/unit-metrics/key-concepts/unit-metric "mention"). See [Events Overlay](http://127.0.0.1:5000/s/XCkDKj2xeiQhlyRGF6Wr/fundamentals/cost-transparency/key-concepts/events-overlay "mention") for more details.
 
 {% content-ref url="events.md" %}
 [events.md](events.md)
 {% endcontent-ref %}
 
-Data sent via this API will appear in **Costs Overview** and **Unit Metrics Lab** on Cloudthread's platform.
+Data sent via this API will appear in [Costs Overview](http://127.0.0.1:5000/s/XCkDKj2xeiQhlyRGF6Wr/fundamentals/cost-transparency/costs-overview "mention") and [Unit Metrics Lab](http://127.0.0.1:5000/s/XCkDKj2xeiQhlyRGF6Wr/fundamentals/unit-metrics/unit-metrics-lab "mention") on Cloudthread's platform.
 
-## Tag Catalog Fetch
+## Tag Catalog fetch
 
-Cloudthread provides the ability to fetch a Tag Catalog entry via catalog key.
+Cloudthread provides the ability to fetch a [Tags Catalog](http://127.0.0.1:5000/s/XCkDKj2xeiQhlyRGF6Wr/fundamentals/tag-assistant/tag-catalogs "mention") entry via catalog key.
 
 {% content-ref url="tag_catalog.md" %}
 [tag\_catalog.md](tag\_catalog.md)
 {% endcontent-ref %}
 
-## Cost View and Unit Metric Data Fetch
+## Cost View and Unit Metric Data fetch
 
-Cloudthread provides the ability to fetch a Cost View and Unit Metric data.
+Cloudthread provides the ability to fetch [Cost Views](http://127.0.0.1:5000/s/XCkDKj2xeiQhlyRGF6Wr/fundamentals/cost-transparency/key-concepts/cost-view "mention") and [Unit Metrics](http://127.0.0.1:5000/s/XCkDKj2xeiQhlyRGF6Wr/fundamentals/unit-metrics/key-concepts/unit-metric "mention") data.
 
 {% content-ref url="metrics.md" %}
 [metrics.md](metrics.md)
@@ -58,7 +68,7 @@ Cloudthread provides the ability to fetch a Cost View and Unit Metric data.
 
 ## Users and Teams setup
 
-API can be used to set up Users and Teams.
+API can be used to set up and change **Users** (see [User Management](http://127.0.0.1:5000/s/XCkDKj2xeiQhlyRGF6Wr/fundamentals/settings/account-and-team-management "mention")) and [Teams](http://127.0.0.1:5000/s/XCkDKj2xeiQhlyRGF6Wr/fundamentals/settings/teams "mention").
 
 {% content-ref url="users.md" %}
 [users.md](users.md)
@@ -66,4 +76,12 @@ API can be used to set up Users and Teams.
 
 {% content-ref url="teams.md" %}
 [teams.md](teams.md)
+{% endcontent-ref %}
+
+## Savings Hub manipulation
+
+API to retrive and setup [Savings Opportunities](http://127.0.0.1:5000/s/XCkDKj2xeiQhlyRGF6Wr/fundamentals/cost-savings/key-concepts/optimization-opportunities "mention") and [Savings Threads](http://127.0.0.1:5000/s/XCkDKj2xeiQhlyRGF6Wr/fundamentals/cost-savings/key-concepts/savings-threads "mention").
+
+{% content-ref url="savings-hub/" %}
+[savings-hub](savings-hub/)
 {% endcontent-ref %}

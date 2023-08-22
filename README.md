@@ -2,7 +2,7 @@
 
 ## Welcome to Cloudthread Developer API
 
-Welcome to Cloudthread Developer API! Here you'll find all the documentation you need to get up and running with the cloud cost management API.
+Welcome to Cloudthread **Developer API**! Here you'll find all the documentation you need to get up and running with the cloud cost management API.
 
 ## Want to check it out?
 

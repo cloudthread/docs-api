@@ -1,32 +1,28 @@
 # Teams
 
-Cloudthread platform allows for manipulation of [Teams](http://127.0.0.1:5000/s/XCkDKj2xeiQhlyRGF6Wr/fundamentals/settings/teams "mention") via an API.
+Cloudthread platform allows for manipulation of [Teams](http://127.0.0.1:5000/s/XCkDKj2xeiQhlyRGF6Wr/fundamentals/settings/teams "mention") via an API. See [Setting up Teams](http://127.0.0.1:5000/s/XCkDKj2xeiQhlyRGF6Wr/guides/onboarding/setting-up-teams "mention") for a guide on setting up teams through the UI.
 
-{% hint style="info" %}
+{% hint style="success" %}
 You can **create**, **edit**, and **delete** Teams via Cloudthread's API.
-{% endhint %}
 
-{% hint style="info" %}
-See [Setting up Teams](http://127.0.0.1:5000/s/XCkDKj2xeiQhlyRGF6Wr/guides/onboarding/setting-up-teams "mention") for a guide on setting up teams through the UI.
+See the API method specifications to learn more about the parameters of paths, queries, and responses.
 {% endhint %}
 
 ## Team POST
-
-Creating new team.
 
 {% swagger src="https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml" path="/teams" method="post" %}
 [https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml](https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml)
 {% endswagger %}
 
-## Team PATCH
+To create a new Team (see [Teams](http://127.0.0.1:5000/s/XCkDKj2xeiQhlyRGF6Wr/fundamentals/settings/teams "mention")) you need to issue a **POST** request with the team definition parameters in the form of **JSON** request body.
 
-Editing the team.
+## Team PATCH
 
 {% swagger src="https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml" path="/teams/{team_id}" method="patch" %}
 [https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml](https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml)
 {% endswagger %}
 
-## Team Delete
+## Team DELETE
 
 {% swagger src="https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml" path="/teams/{team_id}" method="delete" %}
 [https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml](https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml)
@@ -44,24 +40,20 @@ Editing the team.
 [https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml](https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml)
 {% endswagger %}
 
-## Teams Assign Members
+## Teams POST – Assign Members
 
 {% swagger src="https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml" path="/teams/{team_id}/members/assign" method="post" %}
 [https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml](https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml)
 {% endswagger %}
 
-## Teams Remove Members
+## Teams POST – Remove Members
 
 {% swagger src="https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml" path="/teams/{team_id}/members/delete" method="post" %}
 [https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml](https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml)
 {% endswagger %}
 
-## Teams GET Members
+## Teams GET – Members List
 
 {% swagger src="https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml" path="/teams/{team_id}/members" method="get" %}
 [https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml](https://raw.githubusercontent.com/cloudthread/docs-api/main/cldthrd_api.yaml)
 {% endswagger %}
-
-{% hint style="info" %}
-**Good to know:** All the methods shown below are synced to an example Swagger file URL and are kept up to date automatically with changes to the API.
-{% endhint %}
