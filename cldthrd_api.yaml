@@ -447,8 +447,10 @@ components:
             properties:
               users_ids:
                 type: array
+                description: List of User IDs
                 items:
                   type: string
+                  description: User ID
 
     RemoveUsersFromTeam:
       description: Remove users from Team
@@ -459,8 +461,10 @@ components:
             properties:
               users_ids:
                 type: array
+                description: List of User IDs
                 items:
                   type: string
+                  description: User ID
 
     GetOpportunitiesQuery:
       description: Query to filter opportunities
@@ -481,11 +485,14 @@ components:
         data_stream_token:
           type: string
           example: sometoken
+          description: Data stream token
         metric_agg_func:
           type: string
           example: Sum | Average | Minimum | Maximum
+          description: Aggregation function identifier (Sum | Average | Minimum | Maximum)
         data:
           type: array
+          description: Data timeseries
           items:
             $ref: '#/components/schemas/StreamDataPayload'
 
@@ -505,7 +512,7 @@ components:
         metric_name:
           type: string
           example: customers
-          description: The name pf the metric being ingested
+          description: The name of the metric being ingested
         metric_value:
           type: number
           format: float
@@ -522,6 +529,7 @@ components:
       properties:
         data:
           type: array
+          description: Event data
           items:
             $ref: '#/components/schemas/CreateEventsData'
 
@@ -536,7 +544,7 @@ components:
           type: string
           format: date-time
           example: yyyyMMddHHmmss
-          description: can be either timestamp or datetime string
+          description: Can be either timestamp or datetime string
         team_id:
           type: integer
           example: 1
@@ -553,21 +561,25 @@ components:
         type:
           type: string
           example: deploy
+          description: Event type (deploy, outage, etc.)
         description:
           type: string
           example: Major code improvements
+          description: Event description
         event_url:
           type: string
           example: https://foo.org
+          description: Link to event details if applicable
 
     GetTagCatalogPayload:
       description: Tag Catalog fetch response
       type: object
       properties:
         tags:
-          type: object
-          additionalProperties:
-            type: string
+          type: array
+          description: List of tags
+          items:
+            $ref: '#/components/schemas/Tags'
 
     GetCostViewPayload:
       description: Data returned by query of Cost View
@@ -586,18 +598,23 @@ components:
         current_timeframe_cost:
           type: number
           format: float
+          description: Cost ($) for current period
         previous_timeframe_cost:
           type: number
           format: float
+          description: Cost ($) for previous period
         pop_diff:
           type: number
           format: float
+          description: Period-over-period difference total ($)
         pop_change:
           type: number
           format: float
+          description: Period-over-period change (% decimal)
         date:
           type: string
           example: YYYYMMDD
+          description: Period date
 
     GetUnitMetricPayload:
       description: Data returned by query of Unit Metric
@@ -616,33 +633,44 @@ components:
         current_timeframe_denominator:
           type: number
           format: float
+          description: Denominator value for current period
         current_timeframe_numerator:
           type: number
           format: float
+          description: Numerator value for current period ($)
         current_timeframe_unit_metric:
           type: number
           format: float
+          description: Calculated unit metric for current period ($)
         previous_timeframe_denominator:
           type: number
           format: float
+          description: Denominator value for previous period
         previous_timeframe_numerator:
           type: number
           format: float
+          description: Numerator value for previous period ($)
         previous_timeframe_unit_metric:
           type: number
           format: float
+          description: Calculated unit metric for previous period ($)
         pop_diff:
           type: number
           format: float
+          description: Period-over-period difference total ($)
         pop_change:
           type: number
           format: float
+          description: Period-over-period change (% decimal)
         d_agg_func:
           type: string
+          description: Denominator aggregation function (SUM, AVERAGE, etc.)
         n_agg_func:
           type: string
+          description: Denominator aggregation function (SUM, AVERAGE, etc.)
         date:
           type: string
+          description: Period date
 
     User:
       description: Registered User on Cloudthread platform
@@ -654,10 +682,13 @@ components:
       properties:
         id:
           type: string
+          description: User type (Admin, User)
         email:
           type: string
+          description: User email
         name:
           type: string
+          description: User name
 
     GetUsersResponse:
         description: List of Users
@@ -666,7 +697,7 @@ components:
           $ref: '#/components/schemas/User'
 
     CreateTeamRequest:
-      description: Properties defining the Team
+      description: Request to create a Team definition
       type: object
       required:
         - id
@@ -674,74 +705,109 @@ components:
       properties:
         id:
           type: string
+          description: Team ID
         name:
           type: string
+          description: Team name
         slack_channel:
           type: string
+          description: Slack channel link for the team notifications
         aws_account_ids:
           type: array
+          description: Team-level data filter – AWS accounts list
           items:
             type: string
+            description: AWS account ID
         aws_bill_payer_account_ids:
           type: array
+          description: Team-level data filter – AWS Payer accounts list
           items:
             type: string
+            description: AWS account ID
         aws_region_names:
           type: array
+          description: Team-level data filter – AWS regions list
           items:
             type: string
+            description: AWS region name (e.g. us-east-1)
         aws_services:
           type: array
+          description: Team-level data filter – AWS services list
           items:
             type: string
+            description: AWS service name (e.g. Amazon S3)
         aws_tags:
           type: array
+          description: Team-level data filter – AWS resource tags list
           items:
             type: object
+            description: AWS resource tag (key-value pair)
         aws_account_tags:
           type: array
+          description: Team-level data filter – AWS account tags list
           items:
             type: object
+            description: AWS account tag (key-value pair)
         gcp_project_names:
           type: array
+          description: Team-level data filter – GCP projects list
           items:
             type: string
+            description: GCP project ID
         gcp_billing_account_ids:
           type: array
+          description: Team-level data filter – GCP billing accounts ID list
           items:
             type: string
+            description: GCP billing account ID
         gcp_sku_ids:
           type: array
+          description: Team-level data filter – GCP SKU ID list
           items:
             type: string
+            description: GCP SKU ID
         gcp_locations:
           type: array
+          description: Team-level data filter – GCP locations list
           items:
             type: string
+            description: GCP location name
         gcp_services:
           type: array
+          description: Team-level data filter – GCP services list
           items:
             type: string
+            description: GCP service name
         gcp_labels:
           type: array
+          description: Team-level data filter – GCP labels list
           items:
             type: object
+            description: GCP label (key-value pair)
         custom_stream_tokens:
           type: array
+          description: Custom stream tokens list
           items:
             type: string
+            description: Custom stream token
         custom_metric_names:
           type: array
+          description: Custom stream metrics list
           items:
             type: string
+            description: Custom stream metric
         custom_dimensions:
           type: array
+          description: Custom dimensions list
           items:
             type: object
+            description: Custom dimension
         opportunity_priorities:
           type: array
+          description: Opportunity priority definition list
           items:
             type: integer
+            description: Opportunity priority identifier
 
     TeamResponse:
       description: Properties defining the Team
@@ -749,74 +815,109 @@ components:
       properties:
         id:
           type: string
+          description: Team ID
         name:
           type: string
+          description: Team name
         slack_channel:
           type: string
+          description: Slack channel link for the team notifications
         aws_account_ids:
           type: array
+          description: Team-level data filter – AWS accounts list
           items:
             type: string
+            description: AWS account ID
         aws_bill_payer_account_ids:
           type: array
+          description: Team-level data filter – AWS Payer accounts list
           items:
             type: string
+            description: AWS account ID
         aws_region_names:
           type: array
+          description: Team-level data filter – AWS regions list
           items:
             type: string
+            description: AWS region name (e.g. us-east-1)
         aws_services:
           type: array
+          description: Team-level data filter – AWS services list
           items:
             type: string
+            description: AWS service name (e.g. Amazon S3)
         aws_tags:
           type: array
+          description: Team-level data filter – AWS resource tags list
           items:
             type: object
+            description: AWS resource tag (key-value pair)
         aws_account_tags:
           type: array
+          description: Team-level data filter – AWS account tags list
           items:
             type: object
+            description: AWS account tag (key-value pair)
         gcp_project_names:
           type: array
+          description: Team-level data filter – GCP projects list
           items:
             type: string
+            description: GCP project ID
         gcp_billing_account_ids:
           type: array
+          description: Team-level data filter – GCP billing accounts ID list
           items:
             type: string
+            description: GCP billing account ID
         gcp_sku_ids:
           type: array
+          description: Team-level data filter – GCP SKU ID list
           items:
             type: string
+            description: GCP SKU ID
         gcp_locations:
           type: array
+          description: Team-level data filter – GCP locations list
           items:
             type: string
+            description: GCP location name
         gcp_services:
           type: array
+          description: Team-level data filter – GCP services list
           items:
             type: string
+            description: GCP service name
         gcp_labels:
           type: array
+          description: Team-level data filter – GCP labels list
           items:
             type: object
+            description: GCP label (key-value pair)
         custom_stream_tokens:
           type: array
+          description: Custom stream tokens list
           items:
             type: string
+            description: Custom stream token
         custom_metric_names:
           type: array
+          description: Custom stream metrics list
           items:
             type: string
+            description: Custom stream metric
         custom_dimensions:
           type: array
+          description: Custom dimensions list
           items:
             type: object
+            description: Custom dimension
         opportunity_priorities:
           type: array
+          description: Opportunity priority definition list
           items:
             type: integer
+            description: Opportunity priority identifier
 
     GetTeamsResponse:
       description: List of Teams with their properties
@@ -825,53 +926,72 @@ components:
         $ref: '#/components/schemas/TeamResponse'
 
     GetOpportunitiesQuery:
-      description: Opportunity properties
+      description: Filter parameters to retrieve the list of matching opportunities 
       type: object
       properties:
         opportunity_type_id:
           type: string
+          description: Opportunity type ID
         status:
           type: string
+          description: Opportunity status (e.g. Assigned, In Progress, Validation, Done, etc.)
         code_automation:
           type: boolean
+          description: Opportunity automation option (True/False)
         thread_id:
           type: integer
+          description: ID of Thread that contains opportunity (if assigned)
         account:
           type: string
+          description: ID of cloud account related to resource featured in opportunity
         region:
           type: string
+          description: Name of region related to resource featured in opportunity
         service:
           type: string
+          description: Name of service related to resource featured in opportunity
         tags:
           type: array
+          description: Tags of resource featured in opportunity
           items:
             $ref: '#/components/schemas/Tags'
         category:
           type: string
+          description: Opportunity category (e.g. Redshift Righsizing)
         record_id:
           type: string
+          description: ID of resource featured in opportunity
         source:
           type: string
+          description: Opportunity data source (e.g. Cloudthread, AWS Compute Optimizer, etc.)
         github_pr_key:
           type: string
+          description: GitHub Pull Request related to opportunity
         secondary_id:
           type: integer
+          description: Secondary ID of opportunity
         last_detected_start_date:
           type: string
           format: date
+          description: Date filter for last detected date (start value)
         last_detected_end_date:
           type: string
           format: date
+          description: Date filter for last detected date (end value)
         status_updated_start_date:
           type: string
           format: date
+          description: Date filter for status updated date (start value)
         status_updated_end_date:
           type: string
           format: date
+          description: Date filter for status updated date (end value)
         details:
           type: boolean
+          description: If opportunity details present (True/False)
         priority:
           type: integer
+          description: Opportunity priority (1, 2, 3, etc.)
     
     Tags:
       description: Cost allocation resource tags
@@ -879,9 +999,11 @@ components:
       properties:
         Key:
           type: string
+          description: Resource tag key
         Value:
           type: string
-    
+          description: Resource tag value
+
     GetOpportunitiesResponse:
       description: List of filtered opportunities
       type: array
@@ -894,31 +1016,43 @@ components:
       properties:
         id:
           type: integer
+          description: Opportunity ID
         source:
           type: string
+          description: Opportunity data source (e.g. Cloudthread, AWS Compute Optimizer, etc.)
         opportunity_details:
           type: object
+          description: Opportunity details (JSON)
         opportunity_type_id:
           type: string
+          description: Opportunity type ID
         cost_impact:
           type: number
+          description: Opportunity estimated savings
         record_id:
           type: string
+          description: ID of resource featured in opportunity
         status_updated_at:
           type: string
           format: date-time
+          description: Date when opportunity status was last updated
         created_at:
           type: string
           format: date-time
+          description: Date when opportunity was created
         status:
           type: string
+          description: Opportunity status (e.g. Assigned, In Progress, Validation, Done, etc.)
         last_detected_at:
           type: string
           format: date-time
+          description: Date when opportunity was last detected
         thread_id:
           type: integer
+          description: ID of Thread that contains opportunity (if assigned)
         github_pr_key:
           type: string
+          description: GitHub Pull Request related to opportunity (if any)
 
 externalDocs:
   description: Find out more about Cloudthread platform
